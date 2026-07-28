@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uday Kiran Kandala — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#050505;
+    --charcoal:#0c0c0d;
+    --panel:#131315;
+    --line:#232326;
+    --line-bright:#3a3a3f;
+    --grey-1:#6a6a70;
+    --grey-2:#9a9aa0;
+    --text:#e9e9ec;
+    --text-dim:#c2c2c7;
+    --signal:#8f8f97;
+    --signal-bright:#d6d6db;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--black);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    font-weight:300;
+    overflow-x:hidden;
+    line-height:1.6;
+  }
+  ::selection{background:var(--line-bright);color:#fff;}
+
+  a{color:inherit;text-decoration:none;}
+
+  .noise{
+    position:fixed;inset:0;pointer-events:none;z-index:1;
+    opacity:0.035;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .bg-gradient{
+    position:fixed;inset:0;z-index:0;
+    background:
+      radial-gradient(ellipse 900px 600px at 15% -10%, rgba(150,150,158,0.10), transparent 60%),
+      radial-gradient(ellipse 700px 700px at 100% 20%, rgba(120,120,128,0.08), transparent 55%),
+      radial-gradient(ellipse 800px 900px at 50% 100%, rgba(100,100,108,0.07), transparent 60%),
+      linear-gradient(180deg, #050505 0%, #0a0a0b 50%, #050505 100%);
+  }
+
+  header{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:26px 6vw;
+    background:linear-gradient(180deg, rgba(5,5,5,0.85), transparent);
+    backdrop-filter:blur(6px);
+  }
+  .logo{
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;letter-spacing:0.08em;
+    color:var(--grey-2);
+  }
+  .logo b{color:var(--text);font-weight:500;}
+  nav{display:flex;gap:36px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.06em;}
+  nav a{
+    color:var(--grey-1);
+    position:relative;
+    padding-bottom:4px;
+    transition:color .25s;
+  }
+  nav a::after{
+    content:'';position:absolute;left:0;bottom:0;width:0;height:1px;
+    background:var(--signal-bright);transition:width .3s;
+  }
+  nav a:hover{color:var(--text);}
+  nav a:hover::after{width:100%;}
+
+  section{position:relative;z-index:2;padding:140px 6vw;scroll-margin-top:90px;}
+
+  /* HERO */
+  .hero{
+    min-height:100vh;
+    display:flex;flex-direction:column;justify-content:center;
+    padding-top:100px;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;letter-spacing:0.15em;
+    color:var(--grey-1);
+    display:flex;align-items:center;gap:10px;
+    margin-bottom:28px;
+    opacity:0;
+    animation:fadeUp .8s ease forwards;
+  }
+  .eyebrow .dot{
+    width:6px;height:6px;border-radius:50%;
+    background:var(--signal-bright);
+    box-shadow:0 0 12px var(--signal-bright);
+    animation:pulse 2.4s ease-in-out infinite;
+  }
+  h1.name{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:clamp(48px, 9vw, 118px);
+    line-height:0.98;
+    letter-spacing:-0.02em;
+    background:linear-gradient(180deg, #f5f5f7 0%, #b8b8bf 55%, #6f6f75 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    opacity:0;animation:fadeUp 1s ease .15s forwards;
+  }
+  .role-line{
+    margin-top:26px;
+    font-size:clamp(16px,2.2vw,22px);
+    color:var(--text-dim);
+    font-weight:300;
+    max-width:680px;
+    opacity:0;animation:fadeUp 1s ease .35s forwards;
+  }
+  .role-line strong{color:var(--text);font-weight:500;}
+  .hero-links{
+    margin-top:44px;display:flex;gap:16px;flex-wrap:wrap;
+    opacity:0;animation:fadeUp 1s ease .5s forwards;
+  }
+  .btn{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;letter-spacing:0.05em;
+    padding:13px 24px;
+    border:1px solid var(--line-bright);
+    border-radius:2px;
+    color:var(--text);
+    transition:all .3s;
+    display:inline-flex;align-items:center;gap:8px;
+  }
+  .btn:hover{
+    background:var(--text);color:var(--black);
+    border-color:var(--text);
+    transform:translateY(-2px);
+  }
+  .btn.ghost{border-color:var(--line);color:var(--grey-2);}
+  .btn.ghost:hover{border-color:var(--line-bright);background:transparent;color:var(--text);transform:translateY(-2px);}
+
+  .scroll-cue{
+    position:absolute;bottom:40px;left:6vw;
+    font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--grey-1);
+    display:flex;align-items:center;gap:10px;
+    opacity:0;animation:fadeUp 1s ease .8s forwards;
+  }
+  .scroll-cue .line{width:36px;height:1px;background:var(--line-bright);position:relative;overflow:hidden;}
+  .scroll-cue .line::after{
+    content:'';position:absolute;left:-100%;top:0;width:100%;height:100%;
+    background:var(--signal-bright);
+    animation:scan 2.2s ease-in-out infinite;
+  }
+  @keyframes scan{0%{left:-100%;}50%{left:100%;}100%{left:100%;}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.35;}}
+
+  /* SECTION HEADS */
+  .sec-head{
+    display:flex;align-items:baseline;gap:18px;margin-bottom:64px;
+  }
+  .sec-num{
+    font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--grey-1);
+  }
+  .sec-title{
+    font-family:'Space Grotesk',sans-serif;font-weight:600;
+    font-size:clamp(28px,4vw,42px);
+    color:var(--text);
+  }
+  .sec-line{flex:1;height:1px;background:var(--line);}
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease, transform .8s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  /* TIMELINE — signature element */
+  .timeline{position:relative;max-width:920px;margin:0 auto;padding-left:8px;}
+  .timeline-track{
+    position:absolute;left:26px;top:0;bottom:0;width:2px;
+    background:var(--line);
+  }
+  .timeline-fill{
+    position:absolute;left:26px;top:0;width:2px;height:0%;
+    background:linear-gradient(180deg, var(--signal-bright), var(--grey-1));
+    box-shadow:0 0 10px rgba(214,214,219,0.4);
+    transition:height .1s linear;
+  }
+  .t-item{
+    position:relative;padding-left:70px;padding-bottom:64px;
+  }
+  .t-item:last-child{padding-bottom:0;}
+  .t-node{
+    position:absolute;left:17px;top:4px;width:18px;height:18px;
+    border-radius:50%;
+    background:var(--black);
+    border:2px solid var(--line-bright);
+    transition:all .4s ease;
+    z-index:2;
+  }
+  .t-item.in .t-node{
+    border-color:var(--signal-bright);
+    box-shadow:0 0 0 4px rgba(214,214,219,0.08), 0 0 16px rgba(214,214,219,0.35);
+  }
+  .t-date{
+    font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--grey-1);
+    letter-spacing:0.05em;margin-bottom:8px;display:block;
+  }
+  .t-title{
+    font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:21px;
+    color:var(--text);margin-bottom:8px;
+  }
+  .t-org{color:var(--grey-2);font-size:14px;margin-bottom:10px;font-family:'JetBrains Mono',monospace;}
+  .t-desc{color:var(--text-dim);font-size:15px;max-width:560px;font-weight:300;}
+
+  /* PROJECTS */
+  .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:1px;background:var(--line);}
+  .project-card{
+    background:var(--charcoal);
+    padding:40px 34px;
+    transition:background .4s ease;
+    position:relative;overflow:hidden;
+  }
+  .project-card:hover{background:#0f0f11;}
+  .project-card::before{
+    content:'';position:absolute;top:0;left:0;width:100%;height:2px;
+    background:linear-gradient(90deg,transparent,var(--signal-bright),transparent);
+    transform:scaleX(0);transition:transform .5s ease;
+  }
+  .project-card:hover::before{transform:scaleX(1);}
+  .p-tag{
+    font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--grey-1);
+    letter-spacing:0.08em;text-transform:uppercase;margin-bottom:18px;display:block;
+  }
+  .p-title{
+    font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:23px;
+    margin-bottom:14px;color:var(--text);
+  }
+  .p-desc{color:var(--text-dim);font-size:14.5px;font-weight:300;margin-bottom:20px;}
+  .p-stats{display:flex;gap:22px;flex-wrap:wrap;margin-top:18px;padding-top:18px;border-top:1px solid var(--line);}
+  .p-stat b{display:block;font-family:'JetBrains Mono',monospace;font-size:18px;color:var(--text);}
+  .p-stat span{font-size:11px;color:var(--grey-1);font-family:'JetBrains Mono',monospace;}
+  .p-stack{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;}
+  .chip{
+    font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--grey-2);
+    border:1px solid var(--line);padding:5px 10px;border-radius:20px;
+  }
+
+  /* PUBLICATIONS */
+  .pub-list{display:flex;flex-direction:column;}
+  .pub{
+    display:flex;justify-content:space-between;align-items:flex-start;gap:24px;
+    padding:28px 0;border-bottom:1px solid var(--line);
+    flex-wrap:wrap;
+  }
+  .pub-left{max-width:640px;}
+  .pub-title{font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:600;color:var(--text);margin-bottom:8px;}
+  .pub-meta{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--grey-1);}
+  .pub-arrow{
+    font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--grey-2);
+    border:1px solid var(--line);padding:9px 16px;border-radius:2px;white-space:nowrap;
+    transition:all .3s;
+  }
+  .pub:hover .pub-arrow{border-color:var(--line-bright);color:var(--text);}
+
+  /* SKILLS */
+  .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:36px;}
+  .skill-group h4{
+    font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.08em;
+    color:var(--grey-1);text-transform:uppercase;margin-bottom:16px;
+  }
+  .skill-group ul{list-style:none;}
+  .skill-group li{
+    color:var(--text-dim);font-size:14.5px;padding:7px 0;
+    border-bottom:1px solid var(--line);
+  }
+
+  /* CONTACT / FOOTER */
+  .contact{
+    text-align:center;padding:160px 6vw 80px;
+  }
+  .contact h2{
+    font-family:'Space Grotesk',sans-serif;font-weight:700;
+    font-size:clamp(34px,6vw,64px);
+    background:linear-gradient(180deg,#f5f5f7,#7a7a80);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    margin-bottom:24px;
+  }
+  .contact p{color:var(--grey-2);max-width:480px;margin:0 auto 40px;font-weight:300;}
+  .contact-links{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;}
+  footer{
+    text-align:center;padding:36px 6vw;
+    font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--grey-1);
+    border-top:1px solid var(--line);
+  }
+
+  @media (max-width:640px){
+    nav{display:none;}
+    section{padding:100px 6vw;}
+    .timeline-track,.timeline-fill{left:14px;}
+    .t-node{left:5px;}
+    .t-item{padding-left:48px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-gradient"></div>
+<div class="noise"></div>
+
+<header>
+  <div class="logo"><b>A V UDAY KIRAN</b>·KANDALA</div>
+  <nav>
+    <a href="#education">Education</a>
+    <a href="#engineering">Engineering</a>
+    <a href="#research">Research</a>
+    <a href="#recognition">Recognition</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="eyebrow"><span class="dot"></span> AVAILABLE FOR ROLES · LONDON, UK</div>
+  <h1 class="name">Uday Kiran<br>Kandala</h1>
+  <p class="role-line">
+    <strong>Mechatronics &amp; ML Engineer</strong> — four years across robotics, automation and RF/antenna systems,
+    now building applied ML, computer vision and NLP pipelines. MSc Machine Learning &amp; AI at Queen Mary University
+    of London. Independent researcher. Founder of SIBA.
+  </p>
+  <div class="hero-links">
+    <a class="btn" href="#engineering">View Work →</a>
+    <a class="btn ghost" href="#contact">Get in touch</a>
+  </div>
+  <div class="scroll-cue"><div class="line"></div> SCROLL</div>
+</section>
+
+<section id="education">
+  <div class="sec-head">
+    <span class="sec-num">01</span>
+    <h2 class="sec-title">Education</h2>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="timeline" data-timeline>
+    <div class="timeline-track"></div>
+    <div class="timeline-fill"></div>
+
+    <div class="t-item reveal">
+      <div class="t-node"></div>
+      <span class="t-date">SEPT 2025 — PRESENT</span>
+      <div class="t-title">MSc, Machine Learning &amp; AI</div>
+      <div class="t-org">Queen Mary University of London — Global Talent Scholarship</div>
+    </div>
+
+    <div class="t-item reveal">
+      <div class="t-node"></div>
+      <span class="t-date">2019 — 2021</span>
+      <div class="t-title">M.Tech, Mechatronics Engineering — Distinction</div>
+      <div class="t-org">Vellore Institute of Technology</div>
+    </div>
+
+    <div class="t-item reveal">
+      <div class="t-node"></div>
+      <span class="t-date">2014 — 2018</span>
+      <div class="t-title">B.Tech, Mechanical Engineering — First Class</div>
+      <div class="t-org">Jawaharlal Nehru Technological University, Hyderabad</div>
+    </div>
+  </div>
+</section>
+
+<section id="engineering">
+  <div class="sec-head">
+    <span class="sec-num">02</span>
+    <h2 class="sec-title">Experience</h2>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="timeline" data-timeline>
+    <div class="timeline-track"></div>
+    <div class="timeline-fill"></div>
+
+    <div class="t-item reveal">
+      <div class="t-node"></div>
+      <span class="t-date">AUG 2025 — PRESENT</span>
+      <div class="t-title">Independent Researcher — Applied ML &amp; Robotics</div>
+      <div class="t-org">London</div>
+      <div class="t-desc">Publishing across applied ML, robotics, automation and information hiding. Multimodal steganography pipelines across image, audio, video and text; CDPR kinematics; computer vision for classification and segmentation.</div>
+    </div>
+
+    <div class="t-item reveal">
+      <div class="t-node"></div>
+      <span class="t-date">JUL 2024 — AUG 2025</span>
+      <div class="t-title">Director</div>
+      <div class="t-org">HECPAA AIM, Hyderabad</div>
+      <div class="t-desc">Founded and ran a higher-education consulting venture end to end — strategy, service design, sales, marketing and client engagement — before strategically closing it to pursue full-time research.</div>
+    </div>
+
+    <div class="t-item reveal">
+      <div class="t-node"></div>
+      <span class="t-date">AUG 2022 — JUN 2024</span>
+      <div class="t-title">Mechanical Engineer II (R&amp;D)</div>
+      <div class="t-org">JMA Wireless, Hyderabad — DISH · Verizon · Vodafone</div>
+      <div class="t-desc">Led cross-functional teams across design, prototyping, NPI builds and mechanical/RF validation for macro base station antenna programs. Designed lens antenna architectures (Mid-Band, Luneburg, High-Band), PCBs, plastic parts and sheet metal from scratch. Executed RF and reliability testing: RL/VSWR/PIM, drop, and vibration.</div>
+    </div>
+
+    <div class="t-item reveal">
+      <div class="t-node"></div>
+      <span class="t-date">OCT 2021 — JUN 2022</span>
+      <div class="t-title">Project Consultant — Automation &amp; Computer Vision</div>
+      <div class="t-org">VIT Vellore</div>
+      <div class="t-desc">Built an automated incense-stick grading and sorting machine fusing machine vision, ML (K-Means, KNN, SVM, Random Forest, Naive Bayes) and mechanical automation — from requirements through fabricated prototype.</div>
+    </div>
+
+    <div class="t-item reveal">
+      <div class="t-node"></div>
+      <span class="t-date">AUG 2021 — OCT 2021</span>
+      <div class="t-title">Design &amp; Production Engineer</div>
+      <div class="t-org">Sickle Innovations, Hyderabad</div>
+      <div class="t-desc">Image processing algorithms for ripe/fresh fruit classification; automated conveyor grading systems; electro-mechanical prototypes for flower size estimation, field-tested for sensor validation.</div>
+    </div>
+
+    <div class="t-item reveal">
+      <div class="t-node"></div>
+      <span class="t-date">OCT 2020 — MAY 2021</span>
+      <div class="t-title">R&amp;D Intern — EPM Payload Release Systems</div>
+      <div class="t-org">RCI, DRDO, Hyderabad</div>
+      <div class="t-desc">Designed an Electro Permanent Magnetic payload locking and release system for UAVs handling loads up to 5kg — magnetic architecture, hand calculations, tolerance analysis, and prototype validation under load.</div>
+    </div>
+  </div>
+
+  <div style="margin-top:110px;">
+    <div class="sec-head">
+      <span class="sec-num">02.1</span>
+      <h2 class="sec-title" style="font-size:clamp(22px,3vw,30px);">Selected Projects</h2>
+      <div class="sec-line"></div>
+    </div>
+
+    <div class="projects-grid reveal">
+      <div class="project-card">
+        <span class="p-tag">Founder · In Progress</span>
+        <div class="p-title">SIBA</div>
+        <div class="p-desc">An AI-powered mobile business operating system built for retail. Fuses informal, tacit business knowledge with structured POS/ERP/CRM data — the core differentiator against category incumbents.</div>
+        <div class="p-stack">
+          <span class="chip">React Native</span>
+          <span class="chip">Expo</span>
+          <span class="chip">Express</span>
+          <span class="chip">Claude API</span>
+        </div>
+        <div class="p-stats">
+          <div class="p-stat"><b>£50/mo</b><span>BASE PRICING</span></div>
+          <div class="p-stat"><b>15-DAY</b><span>BUILD ROADMAP</span></div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <span class="p-tag">Research · Complete</span>
+        <div class="p-title">GPC Steganography — Paper 2</div>
+        <div class="p-desc">Replaced random pixel selection with a learned MLP (REINFORCE) and Graph Transformer (supervised pairwise ranking) for glyph placement, evaluated across 218,750 test instances.</div>
+        <div class="p-stack">
+          <span class="chip">PyTorch</span>
+          <span class="chip">Graph Transformers</span>
+          <span class="chip">REINFORCE</span>
+        </div>
+        <div class="p-stats">
+          <div class="p-stat"><b>90.98dB</b><span>MLP PSNR</span></div>
+          <div class="p-stat"><b>100%</b><span>EXACT MATCH</span></div>
+          <div class="p-stat"><b>0.0</b><span>BER</span></div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <span class="p-tag">Product · In Progress</span>
+        <div class="p-title">WeavIn</div>
+        <div class="p-desc">An Instagram-style feed for hiring — 60-second candidate pitch videos matched against recruiter job-post cards. Backend and mobile scaffolding underway.</div>
+        <div class="p-stack">
+          <span class="chip">Express</span>
+          <span class="chip">Prisma</span>
+          <span class="chip">Mux</span>
+          <span class="chip">Expo</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <span class="p-tag">Patent · PCT Published</span>
+        <div class="p-title">Reconfigurable Dielectric Lens</div>
+        <div class="p-desc">Azimuth beamwidth-tuning antenna lens developed during R&amp;D work on carrier-deployed macro antenna platforms at JMA Wireless.</div>
+        <div class="p-stack">
+          <span class="chip">RF Engineering</span>
+          <span class="chip">Antenna Design</span>
+        </div>
+        <div class="p-stats">
+          <div class="p-stat"><b>WO/2025/</b><span>049288</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:110px;">
+    <div class="sec-head">
+      <span class="sec-num">02.2</span>
+      <h2 class="sec-title" style="font-size:clamp(22px,3vw,30px);">Project Index</h2>
+      <div class="sec-line"></div>
+    </div>
+
+    <div class="skills-grid reveal">
+      <div class="skill-group" style="grid-column:span 2;">
+        <h4>Computer Vision / ML / AI</h4>
+        <ul>
+          <li>Embedding Textual Information in Images using Quinary Pixel Combinations — QMUL, 2026</li>
+          <li>Deep Learning Based Lung Disease Detection from Chest X-Ray Images — QMUL, 2026</li>
+          <li>Automated Disease Detection and Severity Estimation in Okra Leaf Images — QMUL, 2025</li>
+          <li>Deep Learning Based Disease Identification in Potato Crops — QMUL, 2025</li>
+          <li>Image Based Size Estimation System for Groundnut Yield Assessment — QMUL, 2025</li>
+          <li>Vision Based Apple Size Measurement and Grading Pipeline — QMUL, 2025</li>
+          <li>Automated Skin Cancer Detection Using Dermoscopic Image Analysis — QMUL, 2025</li>
+          <li>MRI Based Brain Abnormality Detection Using Convolutional Neural Networks — QMUL, 2025</li>
+          <li>A Unified Multimodal Steganography Framework via Glyph Level Text Encoding — 2025</li>
+          <li>Sentiment Classifier on Twitter Data using BoW, TF-IDF, Word2Vec &amp; SVM — 2025</li>
+          <li>Real Time Visionsense: Adaptive Motion Tracking &amp; Object Counting System — 2025</li>
+          <li>Spatio Temporal LBP Framework for Dynamic Texture Understanding in Video — 2025</li>
+          <li>Drowsiness Detection in Automobiles using Image Processing &amp; Perceptron Neural Networks — 2020</li>
+          <li>Fuzzy Logic Based Color Grading and Classification of Leather Samples — 2020</li>
+          <li>Surface Defect Identification of Leather Samples using Image Processing — 2019</li>
+        </ul>
+      </div>
+      <div class="skill-group" style="grid-column:span 2;">
+        <h4>Robotics / Automation</h4>
+        <ul>
+          <li>Automated Conveyor with Integrated Vision System for Grading &amp; Sorting of Vegetables — VIT, 2021</li>
+          <li>Position Control of Two Link Robotic Arm with Hand Gesture Recognition using MATLAB — VIT, 2021</li>
+          <li>Design &amp; Development of Turbine Based Ventilator — VIT &amp; University of Queensland, 2020</li>
+          <li>Home Automation using Hand Gesture Recognition and Image Processing — VIT, 2020</li>
+          <li>Shape Memory Alloy Based Wing Actuation Mechanism for Flapping Wing MAVs — VIT, 2020</li>
+          <li>Teleoperation &amp; Motion Control of a Robotic Arm through Gesture Recognition — VIT, 2020</li>
+          <li>Speech Recognition for Automated Machining Operation using IoT — VIT, 2020</li>
+          <li>Automated Conveyor for Leather Grading and Sorting — VIT, 2019</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="research">
+  <div class="sec-head">
+    <span class="sec-num">03</span>
+    <h2 class="sec-title">Publications</h2>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="pub-list reveal">
+    <div class="pub">
+      <div class="pub-left">
+        <div class="pub-title">Embedding Textual Information in Images Using Quinary Pixel Combinations</div>
+        <div class="pub-meta">arXiv:2601.04302 · Preprint</div>
+      </div>
+      <a class="pub-arrow" href="https://arxiv.org/abs/2601.04302" target="_blank">arXiv →</a>
+    </div>
+    <div class="pub">
+      <div class="pub-left">
+        <div class="pub-title">Raster Domain Text Steganography: A Unified Framework for Multimodal Secure Embedding</div>
+        <div class="pub-meta">arXiv:2512.21698 · Preprint</div>
+      </div>
+      <a class="pub-arrow" href="https://arxiv.org/abs/2512.21698" target="_blank">arXiv →</a>
+    </div>
+    <div class="pub">
+      <div class="pub-left">
+        <div class="pub-title">Advantages of Taguchi Method Compared to Response Surface Methodology for Achieving the Best Surface Finish in WEDM</div>
+        <div class="pub-meta">Journal of Mechanical Engineering (JMechE), Vol. 19(1), pp. 185–200 · 2022</div>
+      </div>
+      <a class="pub-arrow" href="https://ir.uitm.edu.my/id/eprint/60593/" target="_blank">View →</a>
+    </div>
+    <div class="pub">
+      <div class="pub-left">
+        <div class="pub-title">Significance of Taguchi Design Compared to Response Surface Methodology in Predicting Optimal Machining Conditions for PCM Process</div>
+        <div class="pub-meta">IOP Conference Series: Materials Science and Engineering · 2021</div>
+      </div>
+      <a class="pub-arrow" href="https://iopscience.iop.org/article/10.1088/1757-899X/1128/1/012019/meta" target="_blank">View →</a>
+    </div>
+    <div class="pub">
+      <div class="pub-left">
+        <div class="pub-title">Analysis of Forces Generated in Human Body Segments for Real Time Space Flight</div>
+        <div class="pub-meta">IOP Conference Series: Materials Science and Engineering · 2021</div>
+      </div>
+      <a class="pub-arrow" href="https://iopscience.iop.org/article/10.1088/1757-899X/1128/1/012047/meta" target="_blank">View →</a>
+    </div>
+  </div>
+</section>
+
+<section id="recognition">
+  <div class="sec-head">
+    <span class="sec-num">04</span>
+    <h2 class="sec-title">Recognition</h2>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="projects-grid reveal">
+    <div class="project-card">
+      <span class="p-tag">Patent · PCT Published</span>
+      <div class="p-title">WO/2025/049288</div>
+      <div class="p-desc">Reconfigurable Flat Dielectric Stack Lens for Azimuth Beamwidth Tuning — filed with JMA Wireless, published 06.03.2025. Earned a cash award for the related CBRS lens antenna patent.</div>
+    </div>
+    <div class="project-card">
+      <span class="p-tag">Patent · Under Scrutiny</span>
+      <div class="p-title">UV-C Disinfection Ventilator Integration</div>
+      <div class="p-desc">Integration of a UV-C disinfection system with a blending chamber for inspiratory and expiratory air cycles of a medical ventilator — filed with VIT Vellore.</div>
+    </div>
+  </div>
+
+  <div style="margin-top:70px;">
+    <div class="pub-list reveal">
+      <div class="pub">
+        <div class="pub-left">
+          <div class="pub-title">Cash Award — Patent on 'CBRS Lens Antenna'</div>
+          <div class="pub-meta">JMA Wireless · 2025</div>
+        </div>
+      </div>
+      <div class="pub">
+        <div class="pub-left">
+          <div class="pub-title">Fully Funded PhD — Materials Science (Nuclear Energy)</div>
+          <div class="pub-meta">Sponsored by University of Birmingham &amp; Tokamak Energy · 2024 &amp; 2025</div>
+        </div>
+      </div>
+      <div class="pub">
+        <div class="pub-left">
+          <div class="pub-title">Global Talent Scholarship — MSc in Machine Learning for Visual Data Analytics</div>
+          <div class="pub-meta">Queen Mary University of London · 2025</div>
+        </div>
+      </div>
+      <div class="pub">
+        <div class="pub-left">
+          <div class="pub-title">World Changers Glasgow — MSc in Robotics &amp; AI</div>
+          <div class="pub-meta">University of Glasgow · 2025</div>
+        </div>
+      </div>
+      <div class="pub">
+        <div class="pub-left">
+          <div class="pub-title">Vice Chancellor's International Scholarship — MSc in AI</div>
+          <div class="pub-meta">Newcastle University · 2024 &amp; 2025</div>
+        </div>
+      </div>
+      <div class="pub">
+        <div class="pub-left">
+          <div class="pub-title">London Scholarship — MSc in AI</div>
+          <div class="pub-meta">Northumbria University · 2025</div>
+        </div>
+      </div>
+      <div class="pub">
+        <div class="pub-left">
+          <div class="pub-title">Leeds Business School Scholarship — MSc in Business Analytics</div>
+          <div class="pub-meta">Leeds Business School · 2024 &amp; 2025</div>
+        </div>
+      </div>
+      <div class="pub">
+        <div class="pub-left">
+          <div class="pub-title">India Merit Award — MSc in Robotics &amp; AI</div>
+          <div class="pub-meta">University of Glasgow · 2024</div>
+        </div>
+      </div>
+      <div class="pub">
+        <div class="pub-left">
+          <div class="pub-title">Special Achiever</div>
+          <div class="pub-meta">VIT Vellore · 2021</div>
+        </div>
+      </div>
+      <div class="pub">
+        <div class="pub-left">
+          <div class="pub-title">Achiever</div>
+          <div class="pub-meta">VIT Vellore · 2021</div>
+        </div>
+      </div>
+      <div class="pub">
+        <div class="pub-left">
+          <div class="pub-title">2nd Runner Up — International Design Hackathon</div>
+          <div class="pub-meta">University of Queensland · 2020</div>
+        </div>
+      </div>
+      <div class="pub">
+        <div class="pub-left">
+          <div class="pub-title">Finalist — 'HACK THE CRISIS' Hackathon</div>
+          <div class="pub-meta">MHRD, AICTE, India · 7th of 120+ teams, 5,000+ participants · 2020</div>
+        </div>
+      </div>
+      <div class="pub">
+        <div class="pub-left">
+          <div class="pub-title">Best Research Paper Award</div>
+          <div class="pub-meta">ICSET '19, VIT Vellore · 2019</div>
+        </div>
+      </div>
+      <div class="pub">
+        <div class="pub-left">
+          <div class="pub-title">Certificate of Merit — National Interactive Math Olympiad</div>
+          <div class="pub-meta">2010</div>
+        </div>
+      </div>
+      <div class="pub">
+        <div class="pub-left">
+          <div class="pub-title">Certificate of Merit — National Interactive Math Olympiad</div>
+          <div class="pub-meta">2009</div>
+        </div>
+      </div>
+      <div class="pub">
+        <div class="pub-left">
+          <div class="pub-title">NCC-A Certification</div>
+          <div class="pub-meta">National Cadet Corps, Ministry of Defence, India · 2009–11</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="sec-head">
+    <span class="sec-num">05</span>
+    <h2 class="sec-title">Capabilities</h2>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="skills-grid reveal">
+    <div class="skill-group">
+      <h4>CAD / CAE</h4>
+      <ul>
+        <li>SolidWorks, CATIA, Fusion 360</li>
+        <li>AutoCAD</li>
+        <li>ANSYS, COMSOL Multiphysics</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <h4>ML, AI &amp; Data Science</h4>
+      <ul>
+        <li>Deep Learning — CNN, ANN, Transformers</li>
+        <li>Supervised / Unsupervised / Self-Supervised</li>
+        <li>Transfer Learning, Model Optimization</li>
+        <li>Time Series &amp; Statistical Modeling</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <h4>Computer Vision &amp; NLP</h4>
+      <ul>
+        <li>OpenCV, scikit-image, YOLO</li>
+        <li>Classification, Segmentation, Detection</li>
+        <li>Embeddings, Transformer-based NLP</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <h4>Robotics &amp; Mechatronics</h4>
+      <ul>
+        <li>ROS, ROS2, Gazebo</li>
+        <li>Kinematics, Dynamics, PID Control</li>
+        <li>Sensors, Actuators, System Integration</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <h4>Programming &amp; DevOps</h4>
+      <ul>
+        <li>Python, MATLAB/Simulink, SQL</li>
+        <li>FastAPI, Docker, REST APIs</li>
+        <li>AWS EC2/S3, Git, basic CI/CD</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <h4>Embedded &amp; Edge AI</h4>
+      <ul>
+        <li>Arduino, Raspberry Pi</li>
+        <li>NVIDIA Jetson Nano</li>
+        <li>Matplotlib, Seaborn, Tableau, Power BI</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <h2>Let's build<br>something.</h2>
+  <p>Open to mechatronics, ML/AI, and robotics roles — and always up for talking research, product, or a genuinely hard problem.</p>
+  <div class="contact-links">
+    <a class="btn" href="mailto:uday.kandhala1@gmail.com">Email →</a>
+    <a class="btn ghost" href="tel:+447810323393">+44 7810 323393</a>
+    <a class="btn ghost" href="https://linkedin.com/in/your-handle" target="_blank">LinkedIn</a>
+    <a class="btn ghost" href="https://github.com/your-handle" target="_blank">GitHub</a>
+  </div>
+</section>
+
+<footer>
+  © 2026 A V UDAY KIRAN KANDALA — DESIGNED &amp; BUILT WITH INTENT
+</footer>
+
+<script>
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal, .t-item');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in'); }
+    });
+  }, {threshold:0.15});
+  revealEls.forEach(el=>io.observe(el));
+
+  // Timeline signal fill on scroll (supports multiple independent timelines)
+  const timelines = document.querySelectorAll('.timeline[data-timeline]');
+  function updateFill(){
+    timelines.forEach(tl=>{
+      const fill = tl.querySelector('.timeline-fill');
+      const rect = tl.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const total = rect.height;
+      const scrolled = Math.min(Math.max(vh*0.5 - rect.top, 0), total);
+      const pct = total > 0 ? (scrolled/total)*100 : 0;
+      fill.style.height = pct + '%';
+    });
+  }
+  window.addEventListener('scroll', updateFill);
+  updateFill();
+</script>
+
+</body>
+</html>
