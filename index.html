@@ -51,17 +51,11 @@
 
   header{
     position:fixed;top:0;left:0;right:0;z-index:100;
-    display:flex;justify-content:space-between;align-items:center;
+    display:flex;justify-content:center;align-items:center;
     padding:26px 6vw;
     background:linear-gradient(180deg, rgba(5,5,5,0.85), transparent);
     backdrop-filter:blur(6px);
   }
-  .logo{
-    font-family:'JetBrains Mono',monospace;
-    font-size:13px;letter-spacing:0.08em;
-    color:var(--grey-2);
-  }
-  .logo b{color:var(--text);font-weight:500;}
   nav{display:flex;gap:36px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.06em;}
   nav a{
     color:var(--grey-1);
@@ -102,7 +96,7 @@
     font-size:12px;letter-spacing:0.15em;
     color:var(--grey-1);
     display:flex;align-items:center;gap:10px;
-    margin-bottom:28px;
+    margin-top:20px;
     opacity:0;
     animation:fadeUp .8s ease forwards;
   }
@@ -333,7 +327,6 @@
 <div class="noise"></div>
 
 <header>
-  <div class="logo"><b>UDAY KIRAN</b>·KANDALA</div>
   <nav>
     <a href="#education">Education</a>
     <a href="#engineering">Engineering</a>
@@ -344,14 +337,13 @@
 </header>
 
 <section class="hero">
-  <div class="eyebrow"><span class="dot"></span> AVAILABLE FOR ROLES · LONDON, UK</div>
-
   <div class="profile-photo">
-    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAH0AfQDASIAAhEBAxEB/8QAHQAAAQQDAQEAAAAAAAAAAAAAAAMEBQYBAgcICf/EAFYQAAIBAwMDAgMEBwQGBQoBDQECAwAEEQUSIQYxQRNRImFxBxQygSNCUpGhwdEIFWKxFhgkM3LhQ1OU0vAXJjRGVmSClcLxJVdjhJJ0ojdlc3WDhbL/xAAaAQACAwEBAAAAAAAAAAAAAAAAAwECBAUG/8QALBEAAgIBBAEEAgIDAAMBAAAAAAECAxEEEiExEwUiQVEUMiNhFUJxM4Hhsf/aAAwDAQACEQMRAD8A55F/Zd1SQH/zv08EHBBs5P60f6req7wo6v085GR/scn9a9QW6y7GaRV2FQufPH862gdVcMkg9ML8RxnaTXHest+zqLS1/R5ih/sr6lKDnrTTUIOMGyk/rW4/sparuIPWemjH/uUn9a9N2rNJMI8BgDgc4zmnsRbyEd1ZZCwHPII96W9dd9l/xKvo8qj+yrqpOP8ATLT+OT/sUnA/fWz/ANlPVEJB610449rKT+tepVkxNLGwMZUk9mFlKyKlkJyD2OeKj8+77JWjq+jywv8AZW1RjgdZafn/APYpP60T/wBlXVoU3HrLTTzjAs5P616khBVvIPfvWJSu/wCM5AGT9Kq/ULl8lloqvo8pf6sWo4JPWGngg4wbOTP+dEf9mPUHlMY6wsBjnJspP616feOC5USOx3KQQwHatktmJ9VXZlxy2Kr/AJG/7G/gUfR5pk/sq6ovP+menEbdw/2KTn+NJp/Zb1FkDHrPTwSeR9yk4+fevUCMHR9zP629Y0yeMUXcqLhWiHw93HBz7Uf5K77KfgU/R5iX+ytqkhAh6y0+Q+cWUnH8a0H9lrVN5RusLBSDg5spOP416et5gGYxNtVlOCPelG3SIf0iBwO27BNH+Su+0H4FX0eWz/Zd1NZCj9Y6erDtmyk5+fehf7Luol9i9Z6cT3GLKTn+NepJkcbDPEW245U5OP6Vr6IiVpYgGUH4DntnxVl6he32Q9DT9Hl5v7Lmpgkf6ZacSq5I+5Sf1pX/AFU9W2xO3WOnBZOx+5ScH2PNem5mkluU3BQBHk8YrFxdAktbjeq7Qd3kfSr/AJ1v2U/Cq+jzDJ/ZZ1VAN3V9hycEfcpOP404X+yjqp3betdMJABwLKTkH869JyXjxxyyyIjo0hUYyPiYYH5Vvp10zOm/JRTt2j2q8NdY3yLnpK18HmaT+yvqKICettNLHwLKT/PNJr/ZY1U7MdYaf8Zx/wChScfxr1Lc2zbVZeqth1x+E+9LWpJlkVM8YKj+lOWqsYh0wPLbf2UdVVtp6z03Ocf+hS/1rc/2TtVCK3+mum4Ocf7FL/WvT7uEMivuIUAKByd2e1LW85I2SAKGB5747U2Oonnko6Ynlk/2TtUDlf8ATbTOBnP3KXH+dKH+yXqhTcOudMIxk/7DLx8u9eondQwA4UdwO+KU3gO8ak9sHPaneVi3Wjy2f7I2q7tbmzM04n/AOI3Gcf6pOP40X+yHqv/ALeaf/8Ajccf7KkjK+P2T+6tgQc/nUeWbY6sH7IWs53f6c6bjjP+py8/wA6T/sh6sC7frnpowDgn7lLwf8ApVsLDHj61uD+yfOKPybbHVj/AOSFrB5/0600f/4tLyP+tJ/2Q9WAB/7c6ac/7pL/AFq2A/8AhNYHH8KjyzZHVi/5Ies8cf6c6bg8n7jLyf8ApSf9kHVv/b3Tuf8A2kvLef8ArVsJOPetx2PHPNR+TKvViP5I+rATt6600cZ/1JXk/wDStm/sh6tjH+nOntj/AMol5wPnVsB5/Ksg+CPnUeWTc6sa/JP1aM7v9OdM8f8ApJeeR/1rQ/sh6sCcf6dacf8ApJef51bB8D2NYD4z2NQ8sl8sq/JP1YHOzrTTOcf8ol55H/StH/Y71gHnrzTOc5/0pueR8vNVvHkDHNbg59xUXkbbLLEf7HmrAnHXPTOeB/pNeT/1raT2IdYA5/060zzj/SS8nH/CtueSc1uMYGOfvUXkbbLCf8AYg1lf/brTP8ApPeT/wCtpPYg1hsn/TnTP8ApPeT/wCtXsc0NnkfP3qPKyXlkX9jjWFZ2v8ApzpmeP8ASS8//Wsn+yPrQ4/060z/AKTXk/8ArV7NHAJ80h0+X8qjyso8sf6jWtf8ApzpfP/pJef8ArWk/2ONZIP8Ap9pZ+n+kt5wP3a9lDHJPg1gZ7A5/jReWReWUf7HGsj/rzpcf+kt5/61n/Y51gZ/wCv+l//AC+X/vV6xzwCf+KwAee1HkZd5ZR/secv8f6faX/8AMJf+9Z/2OdYP/n/pf/y+X/vV6xzkEHP76w31o8sl3lllP+yBqw/8AX/Sv/l8v/eqrfsV64D/7faWf/L5f+9Xs9nGPvWB2zWeVkvMv/9k=" alt="Uday Kiran Kandala">
+    <img src="data:image/jpeg;base64,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" alt="Uday Kiran Kandala">
   </div>
 
   <h1 class="name">Uday Kiran Kandala</h1>
   <div class="role-title">Applied Researcher & Multidisciplinary Engineer</div>
+  <div class="eyebrow"><span class="dot"></span> AVAILABLE FOR ROLES · LONDON, UK</div>
 
   <div class="bio">
     <p>Multidisciplinary engineer and applied researcher specializing in cryptography, steganography, and autonomous robotic systems. Currently pursuing advanced studies in machine learning and artificial intelligence with a focus on secure, robust implementations.</p>
