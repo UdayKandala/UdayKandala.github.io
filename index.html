@@ -96,9 +96,17 @@
     font-size:12px;letter-spacing:0.15em;
     color:var(--grey-1);
     display:flex;align-items:center;gap:10px;
-    margin-top:20px;
+    margin-top:10px;
     opacity:0;
     animation:fadeUp .8s ease forwards;
+  }
+  .eyebrow-sub{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;letter-spacing:0.12em;
+    color:var(--grey-2);
+    margin-top:6px;
+    opacity:0;
+    animation:fadeUp .8s ease .1s forwards;
   }
   .eyebrow .dot{
     width:6px;height:6px;border-radius:50%;
@@ -313,7 +321,7 @@
   }
 
   @media (max-width:640px){
-    nav{display:none;}
+    nav{justify-content:center;}
     section{padding:100px 6vw;}
     .timeline-track,.timeline-fill{left:14px;}
     .t-node{left:5px;}
@@ -338,16 +346,17 @@
 
 <section class="hero">
   <div class="profile-photo">
-    <img src="data:image/jpeg;base64,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" alt="Uday Kiran Kandala">
+    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAH0AfQDASIAAhEBAxEB/8QAHQAAAQQDAQEAAAAAAAAAAAAAAAMEBQYBAgcICf/EAFYQAAIBAwMDAgMEBwQGBQoBDQECAwAEEQUSIQYxQRNRImFxBxQygSNCUpGhwdEIFWKxFhgkM3LhQ1OU0vAXJjRGVmSClcLxJVdjhJJ0ojdlc3WDhbL/xAAaAQACAwEBAAAAAAAAAAAAAAAAAwECBAUG/8QALBEAAgIBBAEEAgIDAAMBAAAAAAECAxEEEiExEwUiQVEUMiNhFUJxM4Hhsf/aAAwDAQACEQMRAD8A55F/Zd1SQH/zv08EHBBs5P60f6req7wo6v085GR/scn9a9QW6y7GaVR2FQufPH862gdVcMkg9ML8RxnaTxHets+zqLS1/R5ih/sr6lKDnrTTUIOMGyk/rW4/sparuIPWemjH/uUn9a9N2rNJMI8BgDgc4zmnsRbyEd1ZZCwHPII96W9dd9l/xKvo8qj+yrqpOP8ATLT+OT/sUnA/fWz/ analyserlKvxwJkkd3SyKlkJyD2OeKj8+77JWjq+jywv8AZW1RjgdZafn/APYpP60T/wBlXVoU3HrLTTzjAs5P616khBVvIPfvWJSu/wCM5AGT9Kq/ULl8lloqvo8pf6sWo4JPWGngg4wbOTP+dEf9mPUHlMY6wsBjnJspP616feOC5USOx3KQQwHatktmJ9VXZlxy2Kr/AJG/7G/gUfR5pk/sq6ovP+menEbdw/2KTn+NJp/Zb1FkDHrPTwSeR9yk4+fevUCMHR9zP629Y0yeMUXcqLhWiHw93HBz7Uf5K77KfgU/R5iX+ytqkhAh6y0+Q+cWUnH8a0H9lrVN5RusLBSDg5spOP416et5gGYxNtVlOCPelG3SIf0iBwO27BNH+Su+0H4FX0eWz/Zd1NZCj9Y6erDtmyk5+fehf7Luol9i9Z6cT3GLKTn+NepJkcbDPEW245U5OP6Vr6IiVpYgGUH4DntnxVl6he32Q9DT9Hl5v7Lmpgkf6ZacSq5I+5Sf1pX/AFU9W2xO3WOnBZOx+5ScH2PNem5mkluU3BQBHk8YrFxdAktbjeq7Qd3kfSr/AJ1v2U/Cq+jzDJ/ZZ1VAN3V9hycEfcpOP404X+yjqp3betdMJABwLKTkH869JyXjxxyyyIjo0hUYyPiYYH5Vvp10zOm/JRTt2j2q8NdY3yLnpK18HmaT+yvqKICettNLHwLKT/PNJr/ZY1U7MdYaf8Zx/wChScfxr1Lc2zbVZeqth1x+E+9LWpJlkVM8YKj+lOWqsYh0wPLbf2UdVVtp6z03Ocf+hS/1rc/2TtVCK3+mum4Ocf7FL/WvT7uEMivuIUAKByd2e1Kl8ISOR3GQcAO7Wdpxj9+aKtiMda2BkPAOfbNalC6H1RdmfK+Kr/kb/sb+BR9HmmT+yrqiwM6u6vP/ABnZz/mtf4UvH7KeqLp/puu5/wDtWnP82vU8z4+GSRkEY3c9u/alK2+3nLEAc9uO1O5Nq3dFWiM5D7t/wDklj7Vv2U/Cq+jzOf2UdUAkZ1f6g5P/etn+a1sfso6oQf9PtQ/wD1nZ/mtanlF3q6RkgZyWwR2rzYhVjTDEg/jS32Pj6sYV2b9t3DkX9nDVVJzrOovP4r2c/5rWpf7KemDOfWPURj/vWz/mtWpX3Rj1M6qAMnPOKa9oE5U7Q3Oc/L8ae59l+08h3h3f2/oVfR5f/9k=" alt="Uday Kiran Kandala">
   </div>
 
   <h1 class="name">Uday Kiran Kandala</h1>
-  <div class="role-title">Applied Researcher & Multidisciplinary Engineer</div>
-  <div class="eyebrow"><span class="dot"></span> AVAILABLE FOR ROLES · LONDON, UK</div>
+  <div class="role-title">Mechatronics Engineer</div>
+  <div class="eyebrow"><span class="dot"></span> LONDON, ENGLAND, UNITED KINGDOM</div>
+  <div class="eyebrow-sub">AVAILABLE FOR ROLES</div>
 
   <div class="bio">
-    <p>Multidisciplinary engineer and applied researcher specializing in cryptography, steganography, and autonomous robotic systems. Currently pursuing advanced studies in machine learning and artificial intelligence with a focus on secure, robust implementations.</p>
-    <p>Experienced in high-performance system design, computational mechanics, and non-traditional kinematic structures for autonomous physical exploration.</p>
+    <p>Experienced Mechatronics Engineer with 4+ years of experience in product development, robotics, automation, telecommunications, and electromechanical systems. Proven experience delivering commercial antenna platforms, automation systems, and engineering prototypes from concept through NPI, validation, and deployment.</p>
+    <p>Skilled in sensors and actuators, control systems, embedded platforms, computer vision, and applied machine learning. Currently pursuing an MSc in Machine Learning & AI at Queen Mary University of London.</p>
   </div>
 
   <div class="hero-links">
@@ -374,24 +383,24 @@
 
     <div class="t-item">
       <div class="t-node"></div>
-      <span class="t-date">Present</span>
-      <div class="t-title">Master of Science in Machine Learning and Artificial Intelligence</div>
-      <div class="t-org">Queen Mary University of London</div>
-      <div class="t-desc">Specializing in machine learning, deep neural networks, and algorithmic intelligence. Achieved an 85 percent mark during course studies.</div>
+      <span class="t-date">Sept 2025 — Present</span>
+      <div class="t-title">MSc in Machine Learning & AI</div>
+      <div class="t-org">Queen Mary University of London, London</div>
+      <div class="t-desc">Advanced studies focusing on machine learning, deep learning, and artificial intelligence applications. Achieved an 85 percent mark during course studies.</div>
     </div>
 
     <div class="t-item">
       <div class="t-node"></div>
-      <span class="t-date">Postgraduate</span>
-      <div class="t-title">Master of Technology in Mechatronics Engineering</div>
-      <div class="t-org">Vellore Institute of Technology</div>
+      <span class="t-date">Jan 2019 — Jan 2021</span>
+      <div class="t-title">M.Tech in Mechatronics Engineering</div>
+      <div class="t-org">Vellore Institute of Technology, Vellore</div>
       <div class="t-desc">Focused on advanced control systems, robotics, mechanical design, and automated electronics integration.</div>
     </div>
 
     <div class="t-item">
       <div class="t-node"></div>
-      <span class="t-date">Undergraduate</span>
-      <div class="t-title">Bachelor of Technology in Mechanical Engineering</div>
+      <span class="t-date">Jan 2014 — Jan 2018</span>
+      <div class="t-title">B.Tech in Mechanical Engineering</div>
       <div class="t-org">Jawaharlal Nehru Technological University, Hyderabad</div>
       <div class="t-desc">Core foundation in mechanical design, thermodynamics, material science, and manufacturing kinematics.</div>
     </div>
@@ -401,7 +410,7 @@
 <section id="engineering">
   <div class="sec-head">
     <span class="sec-num">02</span>
-    <h2 class="sec-title">Engineering & Leadership</h2>
+    <h2 class="sec-title">Engineering & Experience</h2>
     <div class="sec-line"></div>
   </div>
 
@@ -411,18 +420,50 @@
 
     <div class="t-item">
       <div class="t-node"></div>
-      <span class="t-date">2024 — 2025</span>
-      <div class="t-title">Founder & Director</div>
-      <div class="t-org">Hecpaa AIM (OPC) Private Limited</div>
-      <div class="t-desc">Directed technical vision, corporate operations, and advanced engineering R&D initiatives.</div>
+      <span class="t-date">Aug 2025 — Present</span>
+      <div class="t-title">Independent Researcher (Applied ML & Robotics)</div>
+      <div class="t-org">London</div>
+      <div class="t-desc">Designed and developed a double-acting pneumatic actuator, developed CDPR kinematic algorithms, created computer vision solutions using Python and OpenCV, and evaluated prototype robotic systems.</div>
     </div>
 
     <div class="t-item">
       <div class="t-node"></div>
-      <span class="t-date">2022 — 2024</span>
-      <div class="t-title">R&D Mechanical Engineer</div>
-      <div class="t-org">JMA Wireless India</div>
-      <div class="t-desc">Engineered robust mechanical components, optimized manufacturing workflows, and co-authored patented industrial designs.</div>
+      <span class="t-date">Jul 2024 — Aug 2025</span>
+      <div class="t-title">Founder</div>
+      <div class="t-org">HECPAA AIM, Hyderabad</div>
+      <div class="t-desc">Managed an independent higher education consulting venture, overseeing operations, strategy, vendor coordination, digital workflow deployment, and concluding strategically to pursue postgraduate studies.</div>
+    </div>
+
+    <div class="t-item">
+      <div class="t-node"></div>
+      <span class="t-date">Aug 2022 — Jun 2024</span>
+      <div class="t-title">Mechanical Engineer II (R&D)</div>
+      <div class="t-org">JMA Wireless, Hyderabad</div>
+      <div class="t-desc">Led cross-functional teams for macro base station antenna programs serving USA, Europe, and Australia markets (DISH, Verizon, Vodafone). Designed antenna systems, injection-moulded plastic parts, sheet metal components, and PCBs, executing structural/thermal simulations and reliability testing.</div>
+    </div>
+
+    <div class="t-item">
+      <div class="t-node"></div>
+      <span class="t-date">Oct 2021 — Jun 2022</span>
+      <div class="t-title">Project Consultant (Automation & Computer Vision)</div>
+      <div class="t-org">VIT Vellore</div>
+      <div class="t-desc">Designed and developed an automated incense stick grading and sorting machine integrating machine vision, machine learning, and material handling systems.</div>
+    </div>
+
+    <div class="t-item">
+      <div class="t-node"></div>
+      <span class="t-date">Aug 2021 — Oct 2021</span>
+      <div class="t-title">Design & Production Engineer</div>
+      <div class="t-org">Sickle Innovations, Hyderabad</div>
+      <div class="t-desc">Developed image processing algorithms for fruit grading and classification using colour segmentation and feature extraction for agricultural automation.</div>
+    </div>
+
+    <div class="t-item">
+      <div class="t-node"></div>
+      <span class="t-date">Oct 2020 — May 2021</span>
+      <div class="t-title">R&D Intern</div>
+      <div class="t-org">RCI, DRDO, Hyderabad</div>
+      <div class="t-desc">Researched and developed payload deployment systems for UAV applications, designing an Electro Permanent Magnetic (EPM) locking and release system for loads up to 5 kg.</div>
     </div>
   </div>
 </section>
@@ -430,7 +471,7 @@
 <section id="research">
   <div class="sec-head">
     <span class="sec-num">03</span>
-    <h2 class="sec-title">Research & Projects</h2>
+    <h2 class="sec-title">Projects & Research</h2>
     <div class="sec-line"></div>
   </div>
 
@@ -438,22 +479,22 @@
     <div class="project-card">
       <span class="p-tag">Cryptography / Steganography</span>
       <div class="p-title">Raster Domain Text Steganography</div>
-      <div class="p-desc">Developed a unified framework for multimodal secure embedding using raster domain systems, zero-distortion frameworks, and cross-modal embedding.</div>
+      <div class="p-desc">Developed a unified framework for multimodal secure embedding using raster domain systems and zero-distortion frameworks.</div>
       <div class="p-stack">
         <span class="chip">Python</span>
         <span class="chip">Security</span>
-        <span class="chip">Raster Systems</span>
+        <span class="chip">ArXiv Published</span>
       </div>
     </div>
 
     <div class="project-card">
-      <span class="p-tag">Robotics & Autonomous Systems</span>
-      <div class="p-title">Variable-Morphology Lattice Swarms</div>
-      <div class="p-desc">Designed surface-actuated mechanics and non-traditional kinematic structures where internal linear actuators remain stationary while dynamically altering overall geometric volume.</div>
+      <span class="p-tag">Robotics & Mechatronics</span>
+      <div class="p-title">Automation & EPM Payload Systems</div>
+      <div class="p-desc">Engineered automated sorting prototypes, cable-driven parallel robot kinematics, and electro-permanent magnetic UAV release mechanisms.</div>
       <div class="p-stack">
-        <span class="chip">Mechatronics</span>
-        <span class="chip">Kinematics</span>
-        <span class="chip">Actuation</span>
+        <span class="chip">OpenCV</span>
+        <span class="chip">SolidWorks</span>
+        <span class="chip">Control Systems</span>
       </div>
     </div>
   </div>
@@ -467,18 +508,26 @@
   <div class="pub-list reveal">
     <div class="pub">
       <div class="pub-left">
-        <div class="pub-title">Raster Domain Text Steganography: A Unified Framework for Multimodal Secure Embedding</div>
-        <div class="pub-meta">arXiv Preprint · December 2025</div>
+        <div class="pub-title">Embedding Textual Information in Images Using Quinary Pixel Combinations</div>
+        <div class="pub-meta">arXiv:2601.04302</div>
       </div>
-      <a href="https://arxiv.org" target="_blank" class="pub-arrow">VIEW PAPER →</a>
+      <a href="https://arxiv.org/abs/2601.04302" target="_blank" class="pub-arrow">VIEW PAPER →</a>
     </div>
 
     <div class="pub">
       <div class="pub-left">
-        <div class="pub-title">Patents and Industrial Research Papers on Engineering Components and Machining Methods</div>
-        <div class="pub-meta">Published Works · 2021 — 2022</div>
+        <div class="pub-title">Raster Domain Text Steganography: A Unified Framework for Multimodal Secure Embedding</div>
+        <div class="pub-meta">ArXiv · https://arxiv.org/abs/2512.21698</div>
       </div>
-      <div class="pub-arrow">PORTFOLIO ARCHIVE</div>
+      <a href="https://arxiv.org/abs/2512.21698" target="_blank" class="pub-arrow">VIEW PAPER →</a>
+    </div>
+
+    <div class="pub">
+      <div class="pub-left">
+        <div class="pub-title">Reconfigurable Flat Di Electric Stack Lens for Azimuth Beam width Tuning</div>
+        <div class="pub-meta">JMA Wireless, USA (Published Patent) WO/2025/049288, 2025</div>
+      </div>
+      <div class="pub-arrow">PATENT</div>
     </div>
   </div>
 </section>
@@ -486,7 +535,7 @@
 <section id="recognition">
   <div class="sec-head">
     <span class="sec-num">04</span>
-    <h2 class="sec-title">Recognition</h2>
+    <h2 class="sec-title">Awards & Recognitions</h2>
     <div class="sec-line"></div>
   </div>
 
@@ -496,18 +545,26 @@
 
     <div class="t-item">
       <div class="t-node"></div>
-      <span class="t-date">March 2026</span>
-      <div class="t-title">DFRWS EU 2026 Conference Acceptance</div>
-      <div class="t-org">Digital Forensics Research Workshop Europe</div>
-      <div class="t-desc">Received acceptance for a research poster presentation detailing advanced digital forensics and data security frameworks.</div>
+      <span class="t-date">2024 & 2025</span>
+      <div class="t-title">Fully Funded PhD Offer - Materials Science (Nuclear Energy)</div>
+      <div class="t-org">University of Birmingham & Tokamak Energy (UK)</div>
+      <div class="t-desc">Sponsored in collaboration with University of Paris Saclay (France), University of Michigan, University of Tennessee, ORNL (USA), KIT, and Forschungszentrum Jülich (Germany).</div>
     </div>
 
     <div class="t-item">
       <div class="t-node"></div>
-      <span class="t-date">March 2026</span>
-      <div class="t-title">ICRA Austria Abstract Presentation</div>
-      <div class="t-org">International Conference on Robotics and Automation</div>
-      <div class="t-desc">Formulated and presented a conceptual project abstract for an autonomous modular construction system.</div>
+      <span class="t-date">2025</span>
+      <div class="t-title">Cash Award - Patent on 'CBRS Lens Antenna'</div>
+      <div class="t-org">JMA Wireless</div>
+      <div class="t-desc">Recognized for industrial contribution to advanced telecommunications hardware innovation.</div>
+    </div>
+
+    <div class="t-item">
+      <div class="t-node"></div>
+      <span class="t-date">2020</span>
+      <div class="t-title">2nd Runner Up - International Design Hackathon</div>
+      <div class="t-org">University of Queensland</div>
+      <div class="t-desc">Awarded for innovative design thinking and hardware prototyping.</div>
     </div>
   </div>
 </section>
@@ -517,7 +574,7 @@
     <h2>Let's build the future.</h2>
     <p>Open for research collaborations, engineering roles, and technical discussions in London or globally.</p>
     <div class="contact-links">
-      <a href="mailto:contact@udaykirankandala.com" class="btn">Send an Email</a>
+      <a href="mailto:uday.kandhala1@gmail.com" class="btn">Send an Email</a>
       <a href="https://linkedin.com" target="_blank" class="btn ghost">LinkedIn Profile</a>
       <a href="https://github.com" target="_blank" class="btn ghost">GitHub Repositories</a>
     </div>
@@ -529,7 +586,6 @@
 </footer>
 
 <script>
-  // Simple reveal observer & timeline fill animation
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if(entry.isIntersecting){
