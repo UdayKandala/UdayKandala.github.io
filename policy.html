@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A V Uday Kiran Kandala | Policy</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<canvas id="starCanvas" class="bg-stars-canvas"></canvas>
+
+<header class="site-header">
+  <nav class="tabs" aria-label="Site sections">
+    <a href="index.html">Bio</a>
+    <a href="engineering.html">Engineering</a>
+    <a href="research.html">Research</a>
+    <a href="policy.html" class="active">Policy</a>
+  </nav>
+</header>
+
+<main id="page-top">
+
+  <section class="reveal">
+    <h2 class="section-title">Disclaimer</h2>
+    <p class="policy-text">
+      All content on this website, including but not limited to written text, project
+      descriptions, research summaries, images, and code references, is the original
+      work of Uday Kiran Kandala unless explicitly stated otherwise. Any resemblance to
+      other individuals, organisations, or entities in examples, illustrations, or
+      descriptions is coincidental and unintentional.
+    </p>
+    <p class="policy-text">
+      Nothing on this website is intended to represent, endorse, defame, mislead, or
+      cause harm to any person, entity, or organisation, whether directly or indirectly.
+      Where employers, institutions, or collaborators are named, they are referenced
+      factually in the context of the author's own professional or academic experience,
+      and no statement here should be read as an official position of those
+      organisations.
+    </p>
+    <p class="policy-text">
+      Where this website links to external publications, patents, or platforms, those
+      materials remain the property of their respective owners or publishers. Links are
+      provided for reference only, and their inclusion does not imply endorsement by the
+      linked party.
+    </p>
+    <p class="policy-text">
+      If you wish to use, reference, cite, or reproduce any content from this website,
+      please contact the author directly beforehand. Academic citation of published
+      papers should follow standard citation practice and link to the original source
+      (arXiv, DFRWS, or the relevant publisher).
+    </p>
+    <p class="policy-text">
+      For questions regarding this policy or requests to use content from this website,
+      please reach out via the contact links on the Bio page.
+    </p>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-line"></div>
+  <div class="footer-row">
+    <span class="footer-updated">Last updated: August 2026</span>
+    <span class="footer-copyright">&copy; 2026 Uday Kiran Kandala</span>
+    <a href="#page-top" class="footer-top-link">Back to top &uarr;</a>
+  </div>
+</footer>
+
+<script>
+  const canvas = document.getElementById('starCanvas');
+  const ctx = canvas.getContext('2d');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let w, h;
+  const CELL = 22;
+  const GAP = 3;
+  let cols, rows;
+
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+    cols = Math.ceil(w / CELL);
+    rows = Math.ceil(h / CELL);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  let mouseX = -9999, mouseY = -9999;
+  let hoveredIdx = -1;
+  let overCanvas = false;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    overCanvas = true;
+    const col = Math.floor(mouseX / CELL);
+    const row = Math.floor(mouseY / CELL);
+    if (col >= 0 && col < cols && row >= 0 && row < rows) {
+      hoveredIdx = row * cols + col;
+    } else {
+      hoveredIdx = -1;
+    }
+  }, { passive: true });
+
+  document.addEventListener('mouseleave', () => {
+    overCanvas = false;
+    hoveredIdx = -1;
+  });
+
+  const active = new Map();
+  const EASE_IN = 0.28;
+  const EASE_OUT = 0.14;
+
+  function animate() {
+    ctx.clearRect(0, 0, w, h);
+
+    if (hoveredIdx !== -1 && overCanvas && !active.has(hoveredIdx)) {
+      active.set(hoveredIdx, 0);
+    }
+
+    for (const [idx, val] of active) {
+      const isTarget = idx === hoveredIdx && overCanvas;
+      const target = isTarget ? 1 : 0;
+      const ease = isTarget ? EASE_IN : EASE_OUT;
+      let a = val + (target - val) * ease;
+
+      if (!isTarget && a < 0.01) {
+        active.delete(idx);
+        continue;
+      }
+      active.set(idx, a);
+
+      const row = Math.floor(idx / cols);
+      const col = idx % cols;
+      const baseSize = CELL - GAP;
+      const cx = col * CELL + baseSize / 2;
+      const cy = row * CELL + baseSize / 2;
+
+      const glowR = baseSize * 2.2 * a;
+      if (glowR > 1) {
+        const bgGlow = ctx.createRadialGradient(cx, cy, 0, cx, cy, glowR);
+        bgGlow.addColorStop(0, `rgba(232, 205, 138, ${0.35 * a})`);
+        bgGlow.addColorStop(1, 'rgba(232, 205, 138, 0)');
+        ctx.fillStyle = bgGlow;
+        ctx.beginPath();
+        ctx.arc(cx, cy, glowR, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      const size = baseSize * (1 + a * 0.9);
+      const px = cx - size / 2;
+      const py = cy - size / 2;
+
+      const grad = ctx.createLinearGradient(px, py, px + size, py + size);
+      grad.addColorStop(0, `rgba(255, 255, 255, ${a})`);
+      grad.addColorStop(0.5, `rgba(232, 205, 138, ${a})`);
+      grad.addColorStop(1, `rgba(150, 118, 58, ${a * 0.85})`);
+
+      ctx.shadowColor = `rgba(232, 205, 138, ${a * 0.85})`;
+      ctx.shadowBlur = 18 * a;
+      ctx.fillStyle = grad;
+      ctx.fillRect(px, py, size, size);
+      ctx.shadowBlur = 0;
+    }
+
+    if (!prefersReducedMotion) requestAnimationFrame(animate);
+  }
+
+  if (prefersReducedMotion) {
+    ctx.clearRect(0, 0, w, h);
+  } else {
+    animate();
+  }
+</script>
+
+<script>
+  const siteHeader = document.querySelector('.site-header');
+  function updateHeaderState() {
+    if (window.scrollY > 40) {
+      siteHeader.classList.add('is-scrolled');
+    } else {
+      siteHeader.classList.remove('is-scrolled');
+    }
+  }
+  window.addEventListener('scroll', updateHeaderState, { passive: true });
+  updateHeaderState();
+</script>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && revealEls.length) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach((el) => io.observe(el));
+  } else {
+    revealEls.forEach((el) => el.classList.add('is-visible'));
+  }
+</script>
+
+</body>
+</html>
