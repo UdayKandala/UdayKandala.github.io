@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A V Uday Kiran Kandala | Engineering</title>
+<style>
+/* ============================================================
+   A V Uday Kiran Kandala, site stylesheet
+   Design: engineering lab-notebook / drafting-sheet aesthetic
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  --void: #0A0A0D;
+  --charcoal: #1C1C22;
+  --charcoal-light: #2A2A32;
+  --gold: #C9A24B;
+  --gold-light: #E8CD8A;
+  --gold-dim: #8A733A;
+  --off-white: #F0EEE8;
+  --ink-soft: #B8B5AC;
+  --red: #A9584E;
+
+  /* Legacy aliases so untouched pages/components keep working */
+  --paper: var(--charcoal);
+  --paper-raised: var(--charcoal-light);
+  --ink: var(--off-white);
+  --grid-line: #3A3A44;
+  --grid-line-faint: #26262E;
+  --blue: var(--gold);
+  --blue-soft: rgba(201, 162, 75, 0.12);
+
+  --display: 'Newsreader', serif;
+  --body: 'IBM Plex Sans', -apple-system, sans-serif;
+  --mono: 'IBM Plex Mono', monospace;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: linear-gradient(180deg, var(--void) 0%, var(--charcoal) 45%, var(--charcoal-light) 100%);
+  color: var(--off-white);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* ---------- Starfield hero (Bio / home page) ---------- */
+
+.bg-stars-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+}
+
+.hero {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    linear-gradient(180deg, rgba(10,10,13,0.25) 0%, rgba(10,10,13,0.45) 55%, rgba(10,10,13,0.9) 100%),
+    linear-gradient(90deg,
+      rgba(10,10,13,0.75) 0%,
+      rgba(10,10,13,0.35) 8%,
+      rgba(10,10,13,0) 20%,
+      rgba(10,10,13,0) 80%,
+      rgba(10,10,13,0.35) 92%,
+      rgba(10,10,13,0.75) 100%),
+    url('space-hero-composite.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 0 24px;
+}
+
+.hero-name {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: clamp(2.6rem, 7vw, 5.2rem);
+  line-height: 1.05;
+  margin: 0;
+  color: var(--off-white);
+  letter-spacing: 0.01em;
+  animation: nameGlow 4s ease-in-out infinite;
+}
+
+@keyframes nameGlow {
+  0%, 100% {
+    text-shadow:
+      0 0 10px rgba(201, 162, 75, 0.12),
+      0 0 22px rgba(201, 162, 75, 0.05);
+  }
+  50% {
+    text-shadow:
+      0 0 18px rgba(201, 162, 75, 0.5),
+      0 0 40px rgba(232, 205, 138, 0.3),
+      0 0 64px rgba(201, 162, 75, 0.12);
+  }
+}
+
+.hero-role {
+  font-family: var(--body);
+  font-style: italic;
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: var(--ink-soft);
+  margin: 18px 0 0;
+  letter-spacing: 0.02em;
+}
+
+.scroll-cue {
+  position: absolute;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--gold-light);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  animation: driftDown 2.2s ease-in-out infinite;
+}
+
+.scroll-cue svg { width: 15px; height: 15px; stroke: var(--gold-light); }
+
+@keyframes driftDown {
+  0%, 100% { transform: translate(-50%, 0); opacity: 0.85; }
+  50% { transform: translate(-50%, 8px); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue { animation: none; }
+  .hero-name { animation: none; text-shadow: 0 0 14px rgba(201, 162, 75, 0.25); }
+  nav.tabs a.active { animation: none; text-shadow: 0 0 12px rgba(201, 162, 75, 0.55); }
+}
+
+/* ---------- Scroll reveal for content below hero ---------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+a { color: var(--gold-light); text-decoration: none; }
+a:hover { text-decoration: underline; color: var(--gold); }
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+img, video { max-width: 100%; display: block; }
+
+/* ---------- Header / Nav (drawing-sheet tabs) ---------- */
+
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  background: rgba(8, 8, 10, 0.22);
+  backdrop-filter: blur(3px);
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 18px 24px 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 12px;
+}
+
+.site-name {
+  font-family: var(--display);
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  margin: 0;
+  padding-bottom: 10px;
+}
+
+.site-name a { color: var(--off-white); }
+.site-name a:hover { text-decoration: none; color: var(--gold-light); }
+
+nav.tabs {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  padding: 14px 24px;
+  overflow-x: auto;
+}
+
+nav.tabs a {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--off-white);
+  padding: 10px 16px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  white-space: nowrap;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+nav.tabs a:hover { color: var(--gold-light); }
+
+nav.tabs a:active {
+  color: var(--gold);
+  text-shadow:
+    0 0 10px rgba(201, 162, 75, 0.7),
+    0 0 22px rgba(232, 205, 138, 0.5);
+}
+
+nav.tabs a.active {
+  color: var(--gold);
+  font-weight: 500;
+  animation: navGlow 4s ease-in-out infinite;
+}
+
+@keyframes navGlow {
+  0%, 100% { text-shadow: 0 0 8px rgba(201, 162, 75, 0.35); }
+  50% { text-shadow: 0 0 14px rgba(201, 162, 75, 0.8), 0 0 26px rgba(232, 205, 138, 0.4); }
+}
+
+/* ---------- Layout ---------- */
+
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 96px 24px 40px;
+  min-height: 60vh;
+}
+
+.bio-text {
+  margin: 0 0 32px;
+}
+
+.policy-text {
+  font-size: 1rem;
+  color: var(--ink-soft);
+  max-width: 72ch;
+  margin: 0 0 32px;
+}
+
+.journey-text {
+  font-size: 1rem;
+  color: var(--ink-soft);
+  margin: 0 0 32px;
+}
+
+.bio-text p {
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+  margin: 0 0 18px;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.bio-text p:last-child { margin-bottom: 0; }
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 10px;
+}
+
+.status-line {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 0 32px;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.01em;
+}
+
+.status-item svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--gold-dim);
+}
+
+.link-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.link-grid a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: var(--off-white);
+  border: 1px solid var(--grid-line);
+  border-radius: 6px;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.link-grid a svg {
+  width: 20px;
+  height: 20px;
+}
+
+.link-grid a:hover {
+  color: var(--gold-light);
+  border-color: var(--gold-dim);
+  background: var(--charcoal-light);
+}
+
+.highlights {
+  margin: 0 0 32px;
+}
+
+.highlights .section-title:first-child {
+  margin-top: 0;
+}
+
+.line-list {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+}
+
+.skill-cat {
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--off-white);
+  margin: 22px 0 6px;
+}
+
+.skill-cat:first-of-type {
+  margin-top: 0;
+}
+
+.skill-list {
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  margin: 0 0 4px;
+  line-height: 1.7;
+}
+
+.line-list li {
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  padding: 10px 0 10px 20px;
+  border-top: 1px solid var(--grid-line-faint);
+  position: relative;
+}
+
+.line-list li:first-child {
+  border-top: none;
+}
+
+.line-list li a {
+  color: var(--ink-soft);
+  text-decoration: underline;
+  text-decoration-color: var(--gold-dim);
+  text-underline-offset: 3px;
+}
+
+.line-list li a:hover {
+  color: var(--gold-light);
+  text-decoration-color: var(--gold-light);
+}
+
+.line-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 18px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold-dim);
+}
+
+.intro-columns {
+  display: grid;
+  grid-template-columns: 480px 1fr;
+  gap: 40px;
+  align-items: start;
+  margin-bottom: 32px;
+  padding-left: 32px;
+}
+
+.intro-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.intro-right {
+  padding-top: 8px;
+}
+
+@media (max-width: 780px) {
+  .intro-columns {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+.profile-badge {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  margin: 0 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-badge::before {
+  content: '';
+  position: absolute;
+  inset: -55px;
+  background:
+    radial-gradient(circle, rgba(240,238,232,0.35) 0%, rgba(232,205,138,0.28) 32%, rgba(201,162,75,0.14) 55%, transparent 72%);
+  filter: blur(18px);
+  z-index: 0;
+}
+
+.profile-badge img {
+  position: relative;
+  z-index: 1;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center 15%;
+  border: 3px solid rgba(240, 238, 232, 0.85);
+  box-shadow:
+    0 22px 44px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(201, 162, 75, 0.25),
+    0 0 30px rgba(232, 205, 138, 0.25);
+}
+
+h1.page-title {
+  font-family: var(--display);
+  font-size: clamp(1.9rem, 3vw, 2.5rem);
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0 0 14px;
+}
+
+.site-footer {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px 40px;
+}
+
+.footer-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  margin: 0 0 24px;
+}
+
+.footer-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+}
+
+.footer-updated {
+  justify-self: start;
+}
+
+.footer-copyright {
+  justify-self: center;
+}
+
+.footer-top-link {
+  justify-self: end;
+  color: var(--ink-soft);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-top-link:hover {
+  color: var(--gold-light);
+  text-decoration: none;
+}
+
+@media (max-width: 640px) {
+  .footer-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    text-align: center;
+  }
+  .footer-updated, .footer-copyright, .footer-top-link {
+    justify-self: center;
+  }
+}
+
+.status-line {
+  align-items: center;
+}
+
+.status-item {
+  flex-direction: row;
+  gap: 8px;
+  white-space: nowrap;
+  font-family: var(--body);
+}
+
+.status-item svg {
+  margin: 0;
+}
+
+.link-grid {
+  justify-content: center;
+}
+
+.page-dek {
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+  margin: 0 0 40px;
+}
+
+h2.section-title {
+  font-family: var(--display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 56px 0 18px;
+  padding-top: 24px;
+  border-top: 1px solid var(--grid-line);
+}
+
+section:first-of-type h2.section-title { margin-top: 0; border-top: none; padding-top: 0; }
+
+p { margin: 0 0 16px; }
+
+.callout {
+  border-left: 3px solid var(--gold-dim);
+  background: var(--charcoal-light);
+  padding: 14px 18px;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  margin: 24px 0;
+}
+
+/* ---------- Media blocks ---------- */
+
+.media-block {
+  margin: 24px 0 32px;
+  border: 1px solid var(--grid-line);
+  background: var(--paper-raised);
+  padding: 10px;
+}
+
+.media-block img, .media-block video {
+  width: 100%;
+  border: 1px solid var(--grid-line);
+}
+
+.media-caption {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+  padding: 10px 4px 2px;
+}
+
+.media-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin: 24px 0 32px;
+}
+
+.doc-list { list-style: none; padding: 0; margin: 0 0 24px; }
+
+.doc-list li {
+  border: 1px solid var(--grid-line);
+  background: var(--paper-raised);
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.doc-list .doc-meta { font-family: var(--mono); font-size: 0.75rem; color: var(--ink-soft); }
+
+.doc-list a.doc-link {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  border: 1px solid var(--gold-dim);
+  padding: 5px 12px;
+  border-radius: 3px;
+  color: var(--gold-light);
+  white-space: nowrap;
+}
+.doc-list a.doc-link:hover { background: var(--gold); color: var(--void); text-decoration: none; }
+
+/* ---------- Cards (projects / entries) ---------- */
+
+.entry {
+  border-top: 1px solid var(--grid-line);
+  padding: 22px 0;
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 20px;
+}
+
+.entry:first-of-type { border-top: none; }
+
+.entry .entry-date {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+  padding-top: 4px;
+}
+
+.entry h3 { font-family: var(--display); font-size: 1.15rem; margin: 0 0 6px; font-weight: 600; }
+.entry p { margin: 0 0 8px; font-size: 0.95rem; color: var(--ink-soft); }
+.entry .tags { font-family: var(--mono); font-size: 0.72rem; color: var(--gold-light); }
+
+.entry-gallery {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  margin: 18px 0 4px;
+  padding-bottom: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold-dim) transparent;
+}
+
+.entry-gallery::-webkit-scrollbar {
+  height: 6px;
+}
+
+.entry-gallery::-webkit-scrollbar-thumb {
+  background: var(--gold-dim);
+  border-radius: 3px;
+}
+
+.entry-gallery::-webkit-scrollbar-track {
+  background: var(--charcoal-light);
+}
+
+.entry-gallery figure {
+  flex-shrink: 0;
+  margin: 0;
+}
+
+.entry-gallery img {
+  height: 400px;
+  width: 400px;
+  object-fit: cover;
+  display: block;
+  border: 1px solid var(--grid-line);
+  border-radius: 3px;
+}
+
+.entry-gallery figcaption {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--ink-soft);
+  margin-top: 6px;
+  max-width: 260px;
+}
+
+@media (max-width: 640px) {
+  .entry { grid-template-columns: 1fr; gap: 6px; }
+}
+
+/* ---------- Title block (signature element, footer of every page) ---------- */
+
+.title-block {
+  max-width: 1100px;
+  margin: 40px auto 0;
+  border-top: 2px solid var(--ink);
+}
+
+.title-block-inner {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  border: 1px solid var(--ink);
+  border-top: none;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+}
+
+.tb-cell {
+  padding: 10px 16px;
+  border-left: 1px solid var(--grid-line);
+}
+.tb-cell:first-child { border-left: none; }
+.tb-cell .tb-label { display: block; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-soft); font-size: 0.65rem; margin-bottom: 3px; }
+.tb-cell .tb-value { color: var(--ink); }
+
+@media (max-width: 700px) {
+  .title-block-inner { grid-template-columns: 1fr 1fr; }
+}
+
+</style>
+</head>
+<body>
+
+<canvas id="starCanvas" class="bg-stars-canvas"></canvas>
+
+<header class="site-header">
+  <nav class="tabs" aria-label="Site sections">
+    <a href="index.html">Bio</a>
+    <a href="engineering.html" class="active">Engineering</a>
+    <a href="research.html">Research</a>
+    <a href="policy.html">Policy</a>
+  </nav>
+</header>
+
+<main id="page-top">
+  <p class="page-dek">
+    As a multidisciplinary engineer, I have received full-time offers spanning
+    mechanical, mechatronics, robotics, and software/ML engineering (agriculture
+    automation, software, telecommunications, defence, warehouse automation, industrial
+    automation), including senior, team-lead, and manager level roles with sponsored
+    offers across India, the UK, and Germany.
+  </p>
+
+  <section class="reveal">
+    <h2 class="section-title">Experience</h2>
+
+    <div class="entry">
+      <div class="entry-date">Aug 2024<br>Jul 2025</div>
+      <div>
+        <h3>Mechatronics Engineer, Freelance, Hyderabad</h3>
+        <ul class="line-list">
+          <li>Proposed process automation solutions for special purpose machinery</li>
+          <li>Designed consoles and control panel layouts for servers, transformers, and actuator systems</li>
+          <li>Produced detailed engineering and assembly drawings for electromechanical equipment supporting power generation infrastructure</li>
+          <li>Designed and developed a double-acting pneumatic actuator, including mechanical design, fabrication, assembly, and functional validation</li>
+          <li>Developed Cable-Driven Parallel Robot (CDPR) kinematics algorithms and control frameworks for automated pick-and-place operations</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-date">Aug 2022<br>Jun 2024</div>
+      <div>
+        <h3>Mechanical Engineer II (R&amp;D, Telecommunications), JMA Wireless, Hyderabad</h3>
+        <ul class="line-list">
+          <li>Led cross-functional teams across mechanical design, prototyping, NPI builds, and mechanical/RF validation for multiple macro base station antenna programs serving global telecommunications markets</li>
+          <li>Designed and delivered macro base station antennas (MX08FRO665-02, MX12FIT765-HG, MX12FIT865-HG), expanding the company's beamforming and high-gain antenna portfolio</li>
+          <li>Supported development of 8-port macro antenna products (MX08FRO465-02, MX08FRO865-02) from concept through prototype validation</li>
+          <li>Conducted R&amp;D on lens antenna architectures (Mid-Band Lens, Luneburg Lens, High-Band Lens), contributing to a CBRS-related patent application</li>
+          <li>Designed and developed macro antenna systems, injection-moulded plastic parts, sheet metal components, PCBs, electromechanical assemblies, and supporting hardware from concept through production</li>
+          <li>Created detailed 3D CAD models, manufacturing drawings, assembly drawings, BOMs, and engineering documentation to support prototype, pre-production, and production builds</li>
+          <li>Performed structural and thermal simulations using ANSYS and COMSOL, supporting design optimisation, mechanical integrity assessment, and product performance improvements</li>
+          <li>Executed DFMEA, DFM, DFA, and DFQ activities throughout NPI/NPD programs to improve manufacturability, reliability, quality, and cost-effectiveness</li>
+          <li>Developed jigs, fixtures, and assembly tooling, reducing manufacturing effort and improving assembly efficiency across multiple product lines</li>
+          <li>Executed reliability and environmental testing including drop (static &amp; transportation), vibration (sine, random, harmonic), and RF validation (RL/VSWR/PIM)</li>
+        </ul>
+        <div class="entry-gallery">
+          <figure>
+            <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAC+ARgDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD5y1O+vU1K5RLy4VVmcACUgAZPvVf+0L//AJ/rn/v63+NGq/8AIUu/+u7/APoRqtRCEeVaFNu5Z/tC/wD+f65/7+t/jR/aF/8A8/1z/wB/W/xqtRV8kewuZln+0L//AJ/rn/v63+NH9oX/APz/AFz/AN/W/wAarUUckewczLP9oX//AD/XP/f1v8aP7Qv/APn+uf8Av63+NVqKOSPYOZln+0L/AP5/rn/v63+NH9oX/wDz/XP/AH9b/Gq1FHJHsHMyz/aF/wD8/wBc/wDf1v8AGj+0L/8A5/rn/v63+NVqKOSPYOZln+0L/wD5/rn/AL+t/jR/aF//AM/1z/39b/Gq1FHJHsHMyz/aF/8A8/1z/wB/W/xo/tC//wCf65/7+t/jVaijkj2DmZZ/tC//AOf65/7+t/jR/aF//wA/1z/39b/Gq1FHJHsHMyz/AGhf/wDP9c/9/W/xo/tC/wD+f65/7+t/jVaijkj2DmZZ/tC//wCf65/7+t/jR/aF/wD8/wBc/wDf1v8AGq1FHJHsHMyz/aF//wA/1z/39b/Gj+0L/wD5/rn/AL+t/jVaijkj2DmZZ/tC/wD+f65/7+t/jR/aF/8A8/1z/wB/W/xqtRRyR7BzMs/2hf8A/P8AXP8A39b/ABo/tC//AOf65/7+t/jVaijkj2DmZZ/tC/8A+f65/wC/rf40f2hf/wDP9c/9/W/xqtRRyR7BzMs/2hf/APP9c/8Af1v8aP7Qv/8An+uf+/rf41Woo5I9g5mWf7Qv/wDn+uf+/rf40f2hf/8AP9c/9/W/xqtRRyR7BzM0dMvr19Stke8uGVpkBBlJBGR70VX0r/kKWn/XdP8A0IUV5ePSUlY6aDumGq/8hS7/AOu7/wDoRqtVnVf+Qpd/9d3/APQjVavTh8KOZ7hRRRViCiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKALOlf8hS0/wCu6f8AoQoo0r/kKWn/AF3T/wBCFFeVmHxI6sPsw1X/AJCl3/13f/0I1Wqzqv8AyFLv/ru//oRqtXpQ+FHM9woooqxBRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAFnSv+Qpaf9d0/9CFFGlf8hS0/67p/6EKK8rMPiR1YfZhqv/IUu/8Aru//AKEarVZ1X/kKXf8A13f/ANCNVq9KHwo5nuFFFFWIKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAs6V/yFLT/run/oQoo0r/AJClp/13T/0IUV5WYfEjqw+zDVf+Qpd/9d3/APQjVarOq/8AIUu/+u7/APoRqtXpQ+FHM9woooqxBRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAFnSv+Qpaf9d0/wDQhRRpX/IUtP8Arun/AKEKK8rMPiR1YfZhqv8AyFLv/ru//oRqtVnVf+Qpd/8AXd//AEI1Wr0ofCjme4UUUVYgooooAKKKKACiiigAooooAKKKKACiiigAorsH8LWB0bV7mOa5N1aWunzW6Fl2uZrYzzA8ZwFVyMdhznrU0nhCzTXdJsVGo3EcmmNd36QgNKsiPKjpGApx80YUZB5NYfWIf16XL9nI4miuj0bQrM+PF8OazJdIn24WebdQGZjIEBy3Qck5wemMc5HOVpGak7IlpoKKKKsQUUUUAFFFFABRRRQAUUUUAFFFFABRRRQBZ0r/AJClp/13T/0IUUaV/wAhS0/67p/6EKK8rMPiR1YfZhqv/IUu/wDru/8A6EarVZ1X/kKXf/Xd/wD0I1Wr0ofCjme4UUUVYgooooAKKKKACiiigAooooAKKKKACrWlX0mnXq3UccUpCOjJICVdXUoynBB5ViOCD6GqtFJq6swTsdBB4s1CK6kmFtZskksDmFkYpshheFYvvZ2GOQqcnJwOeua9/wCIr++tWgnWEl4TC8oU72UzvOc845d/Toq++ceio9lC97Fc7NOLW7qPX7LWhHAbmzaBkBU7XMIUKWGcnOwZwRnnpWZRRVqKWwm2wooopiCiiigAooooAKKKKACiiigAooooAKKKKALOlf8AIUtP+u6f+hCijSv+Qpaf9d0/9CFFeVmHxI6sPsw1X/kKXf8A13f/ANCNVqs6r/yFLv8A67v/AOhGq1elD4Ucz3CiiirEFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAWdK/5Clp/wBd0/8AQhRRpX/IUtP+u6f+hCivKzD4kdWH2Yar/wAhS7/67v8A+hGq1WdV/wCQpd/9d3/9CNVq9KHwo5nuFFFFWIKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAs6V/yFLT/run/oQoo0r/kKWn/XdP8A0IUV5WYfEjqw+zDVf+Qpd/8AXd//AEI1Wqzqv/IUu/8Aru//AKEarV6UPhRzPcKKKKsQUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQBZ0r/AJClp/13T/0IUUaV/wAhS0/67p/6EKK8rMPiR1YfZhqv/IUu/wDru/8A6EarVZ1X/kKXf/Xd/wD0I1Wr0ofCjme4UUUVYgooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigCzpX/IUtP8Arun/AKEKKNK/5Clp/wBd0/8AQhRXlZh8SOrD7MNV/wCQpd/9d3/9CNVq6G98O3s97PMktuFkkZgCxzgnPpUP/CMX/wDz2tv++m/wruhVhyrUwcHcxKK2/wDhGL//AJ7W3/fTf4Uf8Ixf/wDPa2/76b/Cq9tDuLkZiUVt/wDCMX//AD2tv++m/wAKP+EYv/8Antbf99N/hR7aHcORmJRW3/wjF/8A89rb/vpv8KP+EYv/APntbf8AfTf4Ue2h3DkZiUVt/wDCMX//AD2tv++m/wAKP+EYv/8Antbf99N/hR7aHcORmJRW3/wjF/8A89rb/vpv8KP+EYv/APntbf8AfTf4Ue2h3DkZiUVt/wDCMX//AD2tv++m/wAKP+EYv/8Antbf99N/hR7aHcORmJRW3/wjF/8A89rb/vpv8KP+EYv/APntbf8AfTf4Ue2h3DkZiUVt/wDCMX//AD2tv++m/wAKP+EYv/8Antbf99N/hR7aHcORmJRW3/wjF/8A89rb/vpv8KP+EYv/APntbf8AfTf4Ue2h3DkZiUVt/wDCMX//AD2tv++m/wAKP+EYv/8Antbf99N/hR7aHcORmJRW3/wjF/8A89rb/vpv8KP+EYv/APntbf8AfTf4Ue2h3DkZiUVt/wDCMX//AD2tv++m/wAKP+EYv/8Antbf99N/hR7aHcORmJRW3/wjF/8A89rb/vpv8KP+EYv/APntbf8AfTf4Ue2h3DkZiUVt/wDCMX//AD2tv++m/wAKP+EYv/8Antbf99N/hR7aHcORmJRW3/wjF/8A89rb/vpv8KP+EYv/APntbf8AfTf4Ue2h3DkZiUVt/wDCMX//AD2tv++m/wAKP+EYv/8Antbf99N/hR7aHcORmbpX/IUtP+u6f+hCitiy8O3sF7BM8tuVjkViAxzgHPpRXm46alJWOmgmk7n/2Q==" alt="JMA Wireless image 1">
+            <figcaption>Title 1</figcaption>
+          </figure>
+          <figure>
+            <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAC+AUADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD5y1O+vU1K5RLy4VVmcACUgAZPvVf+0L//AJ/rn/v63+NGq/8AIUu/+u7/APoRqtRCEeVaFNu5Z/tC/wD+f65/7+t/jR/aF/8A8/1z/wB/W/xqtRV8kewuZln+0L//AJ/rn/v63+NH9oX/APz/AFz/AN/W/wAarUUckewczLP9oX//AD/XP/f1v8aP7Qv/APn+uf8Av63+NVqKOSPYOZln+0L/AP5/rn/v63+NH9oX/wDz/XP/AH9b/Gq1FHJHsHMyz/aF/wD8/wBc/wDf1v8AGj+0L/8A5/rn/v63+NVqKOSPYOZln+0L/wD5/rn/AL+t/jR/aF//AM/1z/39b/Gq1FHJHsHMyz/aF/8A8/1z/wB/W/xo/tC//wCf65/7+t/jVaijkj2DmZZ/tC//AOf65/7+t/jR/aF//wA/1z/39b/Gq1FHJHsHMyz/AGhf/wDP9c/9/W/xo/tC/wD+f65/7+t/jVaijkj2DmZZ/tC//wCf65/7+t/jR/aF/wD8/wBc/wDf1v8AGq1FHJHsHMyz/aF//wA/1z/39b/Gj+0L/wD5/rn/AL+t/jVaijkj2DmZZ/tC/wD+f65/7+t/jR/aF/8A8/1z/wB/W/xqtRRyR7BzMs/2hf8A/P8AXP8A39b/ABo/tC//AOf65/7+t/jVaijkj2DmZZ/tC/8A+f65/wC/rf40f2hf/wDP9c/9/W/xqtRRyR7BzMs/2hf/APP9c/8Af1v8aP7Qv/8An+uf+/rf41Woo5I9g5mWf7Qv/wDn+uf+/rf40f2hf/8AP9c/9/W/xqtRRyR7BzMs/wBoX/8Az/XP/f1v8aP7Qv8A/n+uf+/rf41Woo5I9g5mWf7Qv/8An+uf+/rf40f2hf8A/P8AXP8A39b/ABqtRRyR7BzMs/2hf/8AP9c/9/W/xqxpl9evqVsj3lwytMgIMpIIyPes6rOlf8hS0/67p/6EKicI8r0HFu4ar/yFLv8A67v/AOhGq1WdV/5Cl3/13f8A9CNVqqHwoT3CiiirEFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAVZ0r/kKWn/XdP/QhVarOlf8AIUtP+u6f+hCpn8LHHdBqv/IUu/8Aru//AKEarVZ1X/kKXf8A13f/ANCNVqUPhQPcKKKKsQUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABVnSv+Qpaf8AXdP/AEIVWqzpX/IUtP8Arun/AKEKmfwscd0Gq/8AIUu/+u7/APoRqtVnVf8AkKXf/Xd//QjValD4UD3CiiirEFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAVZ0r/kKWn/XdP/QhVarOlf8AIUtP+u6f+hCpn8LHHdBqv/IUu/8Aru//AKEarVZ1X/kKXf8A13f/ANCNVqUPhQPcKKKKsQUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABVnSv+Qpaf8AXdP/AEIVWqzpX/IUtP8Arun/AKEKmfwscd0Gq/8AIUu/+u7/APoRqtVnVf8AkKXf/Xd//QjValD4UD3CiiirEFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRWhpNjDd2Gr3EjOGsrNZ4wpGCxnhjweOmJG9OQK63UfBWmW3iXX7Nbm8On2VlPLZyFl3yTRpIdrHbgjdDMDgD7vasp1owdn/W3+Zag3scFRXRan4ca08HWOteVeLJKy+cXTEW19/l7Djk4jJPJ++vTvBqGn6YvhyPUbR7oSidIC0rDbOTGWkKLgFQjbVOSc71PHSmqsXt6C5WjEooorQkKKKKACiiigAooooAKKKKACiiigAooooAKKKKACrOlf8AIUtP+u6f+hCq1WdK/wCQpaf9d0/9CFTP4WOO6DVf+Qpd/wDXd/8A0I1Wqzqv/IUu/wDru/8A6EarUofCge4UUUVYgooooAKKKKACiiigAooooAKKKKACiiigAooooA1BrlyNEOlCC2CmLyDPtbzDF5vm+X1243/NnGe2ccVoXfjPVblp2khswZpLqR8I3/Lwsisv3ui+dIV9C5zmuborN0oPdFc8u5pT61czPfFooNt5BHbsgU7UVCmzbzwQIwOc8E+tO1jWf7StLW3bTbK2+yxrHG0BlztGcjDOV5JLEgAk81l0U+SKFzMKKKKsQUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFWdK/5Clp/13T/ANCFVqs6V/yFLT/run/oQqZ/Cxx3Qar/AMhS7/67v/6EarVZ1X/kKXf/AF3f/wBCNVqUPhQPcKKKKsQUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABVnSv8AkKWn/XdP/QhVarOlf8hS0/67p/6EKmfwscd0Gq/8hS7/AOu7/wDoRqtVnVf+Qpd/9d3/APQjValD4UD3CiiirEFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAVZ0r/kKWn/XdP8A0IVWqzpX/IUtP+u6f+hCpn8LHHdBqv8AyFLv/ru//oRqtVnVf+Qpd/8AXd//AEI1WpQ+FA9woooqxBRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFWdK/wCQpaf9d0/9CFVqs6V/yFLT/run/oQqZ/Cxx3Qar/yFLv8A67v/AOhGq1WdV/5Cl3/13f8A9CNVqUPhQPcKKKKsQUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABVnSv+Qpaf9d0/wDQhVarOlf8hS0/67p/6EKmfwscd0Gq/wDIUu/+u7/+hGq1dDe+Hb2e9nmSW3CySMwBY5wTn0qH/hGL/wD57W3/AH03+FZQqw5VqU4O5iUVt/8ACMX/APz2tv8Avpv8KP8AhGL/AP57W3/fTf4VXtodxcjMSitv/hGL/wD57W3/AH03+FH/AAjF/wD89rb/AL6b/Cj20O4cjMSitv8A4Ri//wCe1t/303+FH/CMX/8Az2tv++m/wo9tDuHIzEorb/4Ri/8A+e1t/wB9N/hR/wAIxf8A/Pa2/wC+m/wo9tDuHIzEorb/AOEYv/8Antbf99N/hR/wjF//AM9rb/vpv8KPbQ7hyMxKK2/+EYv/APntbf8AfTf4Uf8ACMX/APz2tv8Avpv8KPbQ7hyMxKK2/wDhGL//AJ7W3/fTf4Uf8Ixf/wDPa2/76b/Cj20O4cjMSitv/hGL/wD57W3/AH03+FH/AAjF/wD89rb/AL6b/Cj20O4cjMSitv8A4Ri//wCe1t/303+FH/CMX/8Az2tv++m/wo9tDuHIzEorb/4Ri/8A+e1t/wB9N/hR/wAIxf8A/Pa2/wC+m/wo9tDuHIzEorb/AOEYv/8Antbf99N/hR/wjF//AM9rb/vpv8KPbQ7hyMxKK2/+EYv/APntbf8AfTf4Uf8ACMX/APz2tv8Avpv8KPbQ7hyMxKK2/wDhGL//AJ7W3/fTf4Uf8Ixf/wDPa2/76b/Cj20O4cjMSitv/hGL/wD57W3/AH03+FH/AAjF/wD89rb/AL6b/Cj20O4cjMSitv8A4Ri//wCe1t/303+FH/CMX/8Az2tv++m/wo9tDuHIzEorb/4Ri/8A+e1t/wB9N/hR/wAIxf8A/Pa2/wC+m/wo9tDuHIzEorb/AOEYv/8Antbf99N/hR/wjF//AM9rb/vpv8KPbQ7hyMxKK2/+EYv/APntbf8AfTf4Uf8ACMX/APz2tv8Avpv8KPbQ7hyMxKs6V/yFLT/run/oQrS/4Ri//wCe1t/303+FTWXh29gvYJnltyscisQGOcA59KmdaHK9RqDuf//Z" alt="JMA Wireless image 2">
+            <figcaption>Title 2</figcaption>
+          </figure>
+          <figure>
+            <img src="data:image/jpeg;base64,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" alt="JMA Wireless image 3">
+            <figcaption>Title 3</figcaption>
+          </figure>
+          <figure>
+            <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAC+AV4DASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD5y1O+vU1K5RLy4VVmcACUgAZPvVf+0L//AJ/rn/v63+NGq/8AIUu/+u7/APoRqtRCEeVaFNu5Z/tC/wD+f65/7+t/jR/aF/8A8/1z/wB/W/xqtRV8kewuZln+0L//AJ/rn/v63+NH9oX/APz/AFz/AN/W/wAarUUckewczLP9oX//AD/XP/f1v8aP7Qv/APn+uf8Av63+NVqKOSPYOZln+0L/AP5/rn/v63+NH9oX/wDz/XP/AH9b/Gq1FHJHsHMyz/aF/wD8/wBc/wDf1v8AGj+0L/8A5/rn/v63+NVqKOSPYOZln+0L/wD5/rn/AL+t/jR/aF//AM/1z/39b/Gq1FHJHsHMyz/aF/8A8/1z/wB/W/xo/tC//wCf65/7+t/jVaijkj2DmZZ/tC//AOf65/7+t/jR/aF//wA/1z/39b/Gq1FHJHsHMyz/AGhf/wDP9c/9/W/xo/tC/wD+f65/7+t/jVaijkj2DmZZ/tC//wCf65/7+t/jR/aF/wD8/wBc/wDf1v8AGq1FHJHsHMyz/aF//wA/1z/39b/Gj+0L/wD5/rn/AL+t/jVaijkj2DmZZ/tC/wD+f65/7+t/jR/aF/8A8/1z/wB/W/xqtRRyR7BzMs/2hf8A/P8AXP8A39b/ABo/tC//AOf65/7+t/jVaijkj2DmZZ/tC/8A+f65/wC/rf40f2hf/wDP9c/9/W/xqtRRyR7BzMs/2hf/APP9c/8Af1v8aP7Qv/8An+uf+/rf41Woo5I9g5mWf7Qv/wDn+uf+/rf40f2hf/8AP9c/9/W/xqtRRyR7BzMs/wBoX/8Az/XP/f1v8aP7Qv8A/n+uf+/rf41Woo5I9g5mWf7Qv/8An+uf+/rf40f2hf8A/P8AXP8A39b/ABqtRRyR7BzMs/2hf/8AP9c/9/W/xo/tC/8A+f65/wC/rf41Woo5I9g5mWf7Qv8A/n+uf+/rf40f2hf/APP9c/8Af1v8arUUckewczLP9oX/APz/AFz/AN/W/wAa2PCV1cz6lIk1xNKohJAdyRnI9a56tvwZ/wAhSX/rgf8A0JawxMIqlKyLpt8yM3Vf+Qpd/wDXd/8A0I1Wqzqv/IUu/wDru/8A6EarVtD4UQ9woooqxBRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAVt+DP+QpL/wBcD/6EtYlbfgz/AJCkv/XA/wDoS1hif4Ui6fxIzdV/5Cl3/wBd3/8AQjVarOq/8hS7/wCu7/8AoRqtWkPhRL3CiiirEFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABW34M/5Ckv/XA/+hLWJW34M/5Ckv8A1wP/AKEtYYn+FIun8SM3Vf8AkKXf/Xd//QjVarOq/wDIUu/+u7/+hGq1aQ+FEvcKKKKsQUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFbfgz/AJCkv/XA/wDoS1iVt+DP+QpL/wBcD/6EtYYn+FIun8SM3Vf+Qpd/9d3/APQjVarOq/8AIUu/+u7/APoRqtWkPhRL3CiiirEFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABW34M/5Ckv8A1wP/AKEtYlbfgz/kKS/9cD/6EtYYn+FIun8SM3Vf+Qpd/wDXd/8A0I1Wqzqv/IUu/wDru/8A6EarVpD4US9woooqxBRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFdD4Q0O01fyPtMk6eZrFjYny2A/dz+bvPIPzDyxjt1yDVyfwxZQ6X4kvWnuMWXlvp3IxNG0kQLPxz8k0Z4xy1ZOtFS5Xv8A5lqDauclRXReLfDbaJYabceTeIbiPbN56YHmhUdtnA+XEgXvyrc+kfiHQ4NK0LTrgzSNfy3E8N5GcbIWRYWCDvuAlw2ehGO3JGrGVrdRODV/IwaKKK1JCiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK2/Bn/IUl/wCuB/8AQlrErb8Gf8hSX/rgf/QlrDE/wpF0/iRm6r/yFLv/AK7v/wChGq1WdV/5Cl3/ANd3/wDQjVatIfCiXuFFFFWIKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigDft/Fd/A1g8VtZiSzuLa4L7GzO1uu2Lf8ANjCqSPl25zzk803/AISi/awSykt7SSFbVbZgyN+8VZY5AW+briGNP91QOvNYVFZ+yh2K55GhPrF5PHeLIULXV2t48gyGWQb+VOeM7zn6D0qXU/EOr6npUGnahfT3UUE8k6tNK7sWdUXBJJ4Gzj03N61lUU+SN72FzMKKKKsQUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABW34M/5Ckv/XA/+hLWJW34M/5Ckv8A1wP/AKEtYYn+FIun8SM3Vf8AkKXf/Xd//QjVarOq/wDIUu/+u7/+hGq1aQ+FEvcKKKKsQUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFbfgz/AJCkv/XA/wDoS1iVt+DP+QpL/wBcD/6EtYYn+FIun8SM3Vf+Qpd/9d3/APQjVarOq/8AIUu/+u7/APoRqtWkPhRL3CiiirEFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABW34M/5Ckv8A1wP/AKEtYlbfgz/kKS/9cD/6EtYYn+FIun8SM3Vf+Qpd/wDXd/8A0I1Wqzqv/IUu/wDru/8A6EarVpD4US9woooqxBRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAVt+DP+QpL/wBcD/6EtYlbfgz/AJCkv/XA/wDoS1hif4Ui6fxIzdV/5Cl3/wBd3/8AQjVarOq/8hS7/wCu7/8AoRqtWkPhRL3CiiirEFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABW34M/5Ckv/XA/+hLWJW34M/5Ckv8A1wP/AKEtYYn+FIun8SM3Vf8AkKXf/Xd//QjVauhvfDt7PezzJLbhZJGYAsc4Jz6VD/wjF/8A89rb/vpv8KIVYcq1BwdzEorb/wCEYv8A/ntbf99N/hR/wjF//wA9rb/vpv8ACq9tDuLkZiUVt/8ACMX/APz2tv8Avpv8KP8AhGL/AP57W3/fTf4Ue2h3DkZiUVt/8Ixf/wDPa2/76b/Cj/hGL/8A57W3/fTf4Ue2h3DkZiUVt/8ACMX/APz2tv8Avpv8KP8AhGL/AP57W3/fTf4Ue2h3DkZiUVt/8Ixf/wDPa2/76b/Cj/hGL/8A57W3/fTf4Ue2h3DkZiUVt/8ACMX/APz2tv8Avpv8KP8AhGL/AP57W3/fTf4Ue2h3DkZiUVt/8Ixf/wDPa2/76b/Cj/hGL/8A57W3/fTf4Ue2h3DkZiUVt/8ACMX/APz2tv8Avpv8KP8AhGL/AP57W3/fTf4Ue2h3DkZiUVt/8Ixf/wDPa2/76b/Cj/hGL/8A57W3/fTf4Ue2h3DkZiUVt/8ACMX/APz2tv8Avpv8KP8AhGL/AP57W3/fTf4Ue2h3DkZiUVt/8Ixf/wDPa2/76b/Cj/hGL/8A57W3/fTf4Ue2h3DkZiUVt/8ACMX/APz2tv8Avpv8KP8AhGL/AP57W3/fTf4Ue2h3DkZiUVt/8Ixf/wDPa2/76b/Cj/hGL/8A57W3/fTf4Ue2h3DkZiUVt/8ACMX/APz2tv8Avpv8KP8AhGL/AP57W3/fTf4Ue2h3DkZiUVt/8Ixf/wDPa2/76b/Cj/hGL/8A57W3/fTf4Ue2h3DkZiUVt/8ACMX/APz2tv8Avpv8KP8AhGL/AP57W3/fTf4Ue2h3DkZiUVt/8Ixf/wDPa2/76b/Cj/hGL/8A57W3/fTf4Ue2h3DkZiUVt/8ACMX/APz2tv8Avpv8KP8AhGL/AP57W3/fTf4Ue2h3DkZiUVt/8Ixf/wDPa2/76b/Cj/hGL/8A57W3/fTf4Ue2h3DkZiUVt/8ACMX/APz2tv8Avpv8KP8AhGL/AP57W3/fTf4Ue2h3DkZiVt+DP+QpL/1wP/oS0f8ACMX/APz2tv8Avpv8K0fD+j3On3rzTSQsrRlQEJJzkHuPascRVi6TSZdOLUkf/9k=" alt="JMA Wireless image 4">
+            <figcaption>Title 4</figcaption>
+          </figure>
+          <figure>
+            <img src="data:image/jpeg;base64,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UAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAV13gz/kFy/9dz/6CtcjXXeDP+QXL/13P/oK1x47+EbUPiOa1X/kKXf/AF3f/wBCNVqs6r/yFLv/AK7v/wChGq1dMPhRk9woooqxBRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRXVeEfD2l6mumS6lcXMMNxNfrcNGyjYlvbJKpGQecsc57AYx1qJzUFdlRi5OyOVorp5/C/keFmupPP/tf+1Us1twRsKMJVzjGd3mRMOuOKs6p4Tgs/GFlpey+FncxtIPOxHKwQurYJXAyYyRkcBlznqY9vD8/wH7ORx9FaHiCyWxvVjS0lto3jDoHukuA4OfmV0UKRxjjuDzWfWsXdXJasFFFFMQUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAV13gz/AJBcv/Xc/wDoK1yNdd4M/wCQXL/13P8A6CtceO/hG1D4jmtV/wCQpd/9d3/9CNVqs6r/AMhS7/67v/6EarV0w+FGT3CiiirEFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFb914rv57gTfZrOMlbreERsO9zH5cshy33iMdMKCBx1zgUVMoRluNNrY6ObxjqkswleG03CWCZfkbiSJZQG+91LTO59W54HFZlpq00FvaQNb2s8drNJIqzIWDCRVVlPP3fl4xggkkHNZ9FSqUFshuTZc1XUZNQeDdDDbxW8XkwQxbtsabmbA3Ek5ZmPJPWqdFFWkkrIlu4UUUUwCiiigAooooAKKKKACiiigAooooAKKKKACuu8Gf8guX/ruf/QVrka67wZ/yC5f+u5/9BWuPHfwjah8RzWq/wDIUu/+u7/+hGq1WdV/5Cl3/wBd3/8AQjVaumHwoye4UUUVYgooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK67wZ/wAguX/ruf8A0Fa5Guu8Gf8AILl/67n/ANBWuPHfwjah8RzWq/8AIUu/+u7/APoRqtVnVf8AkKXf/Xd//QjVaumHwoye4UUUVYgooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK67wZ/yC5f8Aruf/AEFa5Guu8Gf8guX/AK7n/wBBWuPHfwjah8RzWq/8hS7/AOu7/wDoRqtVnVf+Qpd/9d3/APQjVaumHwoye4UUUVYgooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK67wZ/yC5f+u5/9BWuRrrvBn/ILl/67n/0Fa48d/CNqHxHNar/yFLv/AK7v/wChGq1WdV/5Cl3/ANd3/wDQjVaumHwoye4UUUVYgooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK67wZ/yC5f+u5/9BWuRrrvBn/ILl/67n/0Fa48d/CNqHxHNar/AMhS7/67v/6EarV0N74dvZ72eZJbcLJIzAFjnBOfSof+EYv/APntbf8AfTf4VrCrDlWpDg7mJRW3/wAIxf8A/Pa2/wC+m/wo/wCEYv8A/ntbf99N/hVe2h3FyMxKK2/+EYv/APntbf8AfTf4Uf8ACMX/APz2tv8Avpv8KPbQ7hyMxKK2/wDhGL//AJ7W3/fTf4Uf8Ixf/wDPa2/76b/Cj20O4cjMSitv/hGL/wD57W3/AH03+FH/AAjF/wD89rb/AL6b/Cj20O4cjMSitv8A4Ri//wCe1t/303+FH/CMX/8Az2tv++m/wo9tDuHIzEorb/4Ri/8A+e1t/wB9N/hR/wAIxf8A/Pa2/wC+m/wo9tDuHIzEorb/AOEYv/8Antbf99N/hR/wjF//AM9rb/vpv8KPbQ7hyMxKK2/+EYv/APntbf8AfTf4Uf8ACMX/APz2tv8Avpv8KPbQ7hyMxKK2/wDhGL//AJ7W3/fTf4Uf8Ixf/wDPa2/76b/Cj20O4cjMSitv/hGL/wD57W3/AH03+FH/AAjF/wD89rb/AL6b/Cj20O4cjMSitv8A4Ri//wCe1t/303+FH/CMX/8Az2tv++m/wo9tDuHIzEorb/4Ri/8A+e1t/wB9N/hR/wAIxf8A/Pa2/wC+m/wo9tDuHIzEorb/AOEYv/8Antbf99N/hR/wjF//AM9rb/vpv8KPbQ7hyMxKK2/+EYv/APntbf8AfTf4Uf8ACMX/APz2tv8Avpv8KPbQ7hyMxKK2/wDhGL//AJ7W3/fTf4Uf8Ixf/wDPa2/76b/Cj20O4cjMSitv/hGL/wD57W3/AH03+FH/AAjF/wD89rb/AL6b/Cj20O4cjMSitv8A4Ri//wCe1t/303+FH/CMX/8Az2tv++m/wo9tDuHIzErrvBn/ACC5f+u5/wDQVrM/4Ri//wCe1t/303+Fbvh+xm0+yeGZkZmkLAoSRjAHce1cuMqRlSsma0YtSP/Z" alt="JMA Wireless image 5">
+            <figcaption>Title 5</figcaption>
+          </figure>
+          <figure>
+            <img src="data:image/jpeg;base64,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OLpiLa+/y9hxycRknk/fXp3xjiIStbr+pTpyRztFdN4v8OwaJbuii48+2uvs0zmaOSORgDk4XmLlThWyWByOhrma0hNTV0TKLi7MKKKKsQUUUUAFFFFABRRRQAUUUUAFWdK/5Clp/wBd0/8AQhVarOlf8hS0/wCu6f8AoQqZ/Cxx3Qar/wAhS7/67v8A+hGq1WdV/wCQpd/9d3/9CNVqUPhQPcKKKKsQUUUUAFFFFABRRRQAUUUUAFag1y5GiHShBbBTF5Bn2t5hi83zfL67cb/mzjPbOOKy6KlxUtxptHSXfjPVblp2khswZpLqR8I3/Lwsisv3ui+dIV9C5zms2fWrmZ74tFBtvII7dkCnaioU2beeCBGBzngn1rNoqVSgtkNzbNXVtdudRtpIZLe2iM84uLmSMNuuJQGAdssRn53+6APmPFZVFFVGKirITbe4UUUVQgooooAKKKKACiiigAooooAKs6V/yFLT/run/oQqtVnSv+Qpaf8AXdP/AEIVM/hY47oNV/5Cl3/13f8A9CNVqs6r/wAhS7/67v8A+hGq1KHwoHuFFFFWIKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKs6V/yFLT/run/oQqtVnSv+Qpaf9d0/9CFTP4WOO6DVf+Qpd/8AXd//AEI1Wqzqv/IUu/8Aru//AKEarUofCge4UUUVYgooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAqzpX/IUtP+u6f+hCq1WdK/5Clp/wBd0/8AQhUz+Fjjug1X/kKXf/Xd/wD0I1Wqzqv/ACFLv/ru/wD6EarUofCge4UUUVYgooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAqzpX/IUtP+u6f+hCq1WdK/5Clp/13T/0IVM/hY47oNV/5Cl3/wBd3/8AQjVarOq/8hS7/wCu7/8AoRqtSh8KB7hRRRViCiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACrOlf8hS0/67p/6EKrVZ0r/kKWn/AF3T/wBCFTP4WOO6DVf+Qpd/9d3/APQjVauhvfDt7PezzJLbhZJGYAsc4Jz6VD/wjF//AM9rb/vpv8KyhVhyrUpwdzEorb/4Ri//AOe1t/303+FH/CMX/wDz2tv++m/wqvbQ7i5GYlFbf/CMX/8Az2tv++m/wo/4Ri//AOe1t/303+FHtodw5GYlFbf/AAjF/wD89rb/AL6b/Cj/AIRi/wD+e1t/303+FHtodw5GYlFbf/CMX/8Az2tv++m/wo/4Ri//AOe1t/303+FHtodw5GYlFbf/AAjF/wD89rb/AL6b/Cj/AIRi/wD+e1t/303+FHtodw5GYlFbf/CMX/8Az2tv++m/wo/4Ri//AOe1t/303+FHtodw5GYlFbf/AAjF/wD89rb/AL6b/Cj/AIRi/wD+e1t/303+FHtodw5GYlFbf/CMX/8Az2tv++m/wo/4Ri//AOe1t/303+FHtodw5GYlFbf/AAjF/wD89rb/AL6b/Cj/AIRi/wD+e1t/303+FHtodw5GYlFbf/CMX/8Az2tv++m/wo/4Ri//AOe1t/303+FHtodw5GYlFbf/AAjF/wD89rb/AL6b/Cj/AIRi/wD+e1t/303+FHtodw5GYlFbf/CMX/8Az2tv++m/wo/4Ri//AOe1t/303+FHtodw5GYlFbf/AAjF/wD89rb/AL6b/Cj/AIRi/wD+e1t/303+FHtodw5GYlWdK/5Clp/13T/0IVpf8Ixf/wDPa2/76b/CprLw7ewXsEzy25WORWIDHOAc+lTOtDleo1B3P//Z" alt="JMA Wireless image 6">
+            <figcaption>Title 6</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-date">Oct 2021<br>Jun 2022</div>
+      <div>
+        <h3>Project Consultant (Process Automation &amp; Computer Vision), VIT Vellore, Vellore</h3>
+        <ul class="line-list">
+          <li>Designed and developed an automated incense stick grading and sorting machine, integrating machine vision, machine learning, and mechanical automation</li>
+          <li>Conducted requirement analysis, site studies, and feasibility assessments to define system architecture, throughput targets, and operational constraints</li>
+          <li>Designed, fabricated, and assembled a functional prototype using sheet metal, polymer components, additive manufacturing, and machine vision hardware</li>
+          <li>Evaluated and validated multiple conveying and material handling concepts, including rotary, linear, belt conveyor, and turntable mechanisms, through proof-of-concept testing</li>
+          <li>Developed computer vision and defect detection algorithms using image processing, feature extraction, and machine learning techniques for automated quality inspection</li>
+          <li>Coordinated with vendors and manufacturers for material procurement, fabrication, assembly, and prototype development to meet project timelines</li>
+          <li>Conducted system testing, performance evaluation, and iterative design improvements to enhance grading accuracy, reliability, and operational efficiency</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-date">Aug 2021<br>Oct 2021</div>
+      <div>
+        <h3>Design &amp; Production Engineer (Process Automation), Sickle Innovations, Hyderabad</h3>
+        <ul class="line-list">
+          <li>Designed and developed automated conveyor-based grading and sorting systems, evaluating alternative concepts to improve throughput, reliability, and operational efficiency</li>
+          <li>Generated mechanical concepts, 3D CAD models, and prototype designs using Autodesk Fusion 360 for agricultural automation applications</li>
+          <li>Designed and prototyped electromechanical systems integrating sensors, actuators, and machine vision technologies for object identification and size estimation</li>
+          <li>Developed image processing algorithms for fruit grading and classification using colour segmentation, binary processing, feature extraction, and pixel intensity analysis</li>
+          <li>Conducted field testing and validation of developed prototypes, acquiring and analysing real-time sensor and system performance data</li>
+          <li>Performed engineering research on precision mechatronics, automation systems, and sensing technologies to support product development activities</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-date">Oct 2020<br>May 2021</div>
+      <div>
+        <h3>Research &amp; Development Intern, RCI, DRDO, Hyderabad</h3>
+        <ul class="line-list">
+          <li>Conducted R&amp;D on payload deployment systems for UAV applications, focusing on reliable locking, holding, and release mechanisms</li>
+          <li>Designed an Electro Permanent Magnetic (EPM) payload locking and release system capable of handling loads up to 5 kg, including mechanical architecture, component selection, and electromagnetic design</li>
+          <li>Performed engineering calculations and design analysis including magnetic flux density, holding force, power requirements, tolerance analysis, and safety factor evaluation</li>
+          <li>Applied DFMEA, DFM, DFA, and DFQ methodologies to improve design robustness, manufacturability, reliability, and quality throughout the development cycle</li>
+          <li>Coordinated with suppliers and manufacturers for component sourcing, fabrication, assembly, and prototype development</li>
+          <li>Executed prototype assembly, testing, and validation, evaluating mechanical integrity, magnetic holding performance, and operational reliability under load, resolving design issues through iterative testing and root-cause analysis</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+  <section class="reveal">
+    <h2 class="section-title">Education</h2>
+    <div class="entry">
+      <div class="entry-date">2025<br>Present</div>
+      <div>
+        <h3>MSc Machine Learning &amp; AI, Queen Mary University of London</h3>
+        <p>Thesis: Glyph Perturbation Cardinality, A Raster Domain Framework for Text Steganography.</p>
+      </div>
+    </div>
+    <div class="entry">
+      <div class="entry-date">2019<br>2021</div>
+      <div>
+        <h3>M.Tech in Mechatronics Engineering, Vellore Institute of Technology</h3>
+        <p>Thesis: Design and Development of Payload Deployment Systems for Unmanned Aerial Vehicles.</p>
+      </div>
+    </div>
+    <div class="entry">
+      <div class="entry-date">2014<br>2018</div>
+      <div>
+        <h3>B.Tech in Mechanical Engineering, Jawaharlal Nehru Technological University, Hyderabad</h3>
+        <p>Thesis: Design and Fabrication of Mobile Elevating Ball Transfer Table, 2018.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <h2 class="section-title">Projects</h2>
+    <ul class="line-list">
+      <li>SIBA, AI-Powered Mobile Business Operating System, 2026</li>
+      <li>WeavIn, Video-First Professional Hiring Platform, 2026</li>
+      <li>Deep Learning Based Lung Disease Detection from Chest X-Ray Images, QMUL, 2026</li>
+      <li>MRI Based Brain Abnormality Detection using Convolutional Neural Networks, QMUL, 2026</li>
+      <li>Fruit Grading and Classification using Image Processing and Machine Learning, 2022</li>
+      <li>Automated Incense Stick Grading and Sorting using Machine Vision, VIT Vellore, 2021</li>
+      <li>Surface Defect Identification of Leather Samples using Computer Vision, 2021</li>
+      <li>Speech Recognition for Automated Machining Operations using IoT, VIT Vellore, 2021</li>
+      <li>Design and Development of a Low-Cost Turbine-Based Ventilator, working model, VIT Vellore, 2021</li>
+      <li>Shape Memory Alloy Based Wing Actuation Mechanism for Flapping-Wing Micro Aerial Vehicles, VIT Vellore, 2021</li>
+      <li>MATLAB and Simulink Based Trajectory Generation and Optimization for a Serial Manipulator Robotic Arm, VIT Vellore, 2021</li>
+      <li>Automated Conveyor with Integrated Vision System for Grading and Sorting of Vegetables, VIT Vellore, 2020</li>
+      <li>Fuzzy Logic Based Colour Grading and Classification of Leather Samples, 2020</li>
+      <li>Home Automation using Hand Gesture Recognition and Image Processing, VIT Vellore, 2020</li>
+      <li>Position Control of Two-Link Robotic Arm using Hand Gesture Recognition, VIT Vellore, 2020</li>
+      <li>Teleoperation and Motion Control of a Robotic Arm through Gesture Recognition, VIT Vellore, 2020</li>
+      <li>Disease Identification in Okra Plant using Convolutional Neural Networks (CNNs), 2020</li>
+      <li>Drowsiness Detection in Automobiles using Image Processing Techniques and Perceptron Neural Networks, 2020</li>
+      <li>Development of Automated Conveyor for Leather Grading and Sorting, VIT Vellore, 2019</li>
+      <li>HHO Cell Design and Development for Automotive Fuel Supplementation using KOH Alkaline Electrolysis, 2018</li>
+    </ul>
+  </section>
+
+  <section class="reveal">
+    <h2 class="section-title">Skills</h2>
+
+    <h3 class="skill-cat">CAD / CAE</h3>
+    <p class="skill-list">SolidWorks, CATIA, Fusion 360, Autodesk Inventor, AutoCAD, ANSYS (CAE/CFD), COMSOL Multiphysics (CFD), Hypermesh</p>
+
+    <h3 class="skill-cat">Mechanical Design &amp; Analysis</h3>
+    <p class="skill-list">Structural &amp; Thermal Simulation, Heat Transfer Analysis (Conduction, Convection, Radiation), Thermal Management, Mechanism Design, GD&amp;T, Tolerance Analysis, Kinematics &amp; Dynamics, First Principles Calculations, Engineering Drawings, Assembly Drawings, BOMs, Part &amp; Assembly Documentation</p>
+
+    <h3 class="skill-cat">Controls &amp; Automation</h3>
+    <p class="skill-list">Sensors &amp; Actuators, Control Systems (PID), PLCs (Siemens, Rockwell), Pneumatics &amp; Hydraulics, Hydraulic/Pneumatic Actuator Design, System Integration</p>
+
+    <h3 class="skill-cat">Robotics &amp; Mechatronics</h3>
+    <p class="skill-list">Mechatronic System Design, ROS, Robotic Kinematics &amp; Dynamics, Motion Control, Cable-Driven Parallel Robots (CDPR)</p>
+
+    <h3 class="skill-cat">Embedded Systems &amp; Electronics</h3>
+    <p class="skill-list">PCB Design, Arduino, Raspberry Pi, NVIDIA Jetson Nano, CAN Bus, MODBUS, UART/USART, Electro-Permanent Magnetic (EPM) Systems</p>
+
+    <h3 class="skill-cat">Testing &amp; Validation</h3>
+    <p class="skill-list">Test Rig Design, Experimental Setup &amp; Data Acquisition, Functional Validation, Drop Testing (Static &amp; Transportation), Vibration Testing (Sine, Random, Harmonic), RF Testing (RL/VSWR/PIM), Reliability &amp; Environmental Testing</p>
+
+    <h3 class="skill-cat">Design for Manufacturing &amp; Quality</h3>
+    <p class="skill-list">DFM, DFA, DFMEA, DFQ, Injection Moulding, Sheet Metal Fabrication, Additive Manufacturing, Jigs &amp; Fixtures Design, Vendor &amp; Supplier Management, Manufacturing Readiness</p>
+
+    <h3 class="skill-cat">Systems Engineering &amp; Risk Management</h3>
+    <p class="skill-list">System Design, Process / Design Failure Mode &amp; Effects Analysis (PFMEA/DFMEA), Risk Assessment, Root Cause Analysis, Reliability Engineering</p>
+
+    <h3 class="skill-cat">Programming, Scientific Computing &amp; Data Analysis</h3>
+    <p class="skill-list">Python (NumPy, SciPy, Pandas, Scikit-learn), MATLAB/Simulink, C/C++, Git, SQL, OpenCV, Jupyter Notebook</p>
+
+    <h3 class="skill-cat">Data Visualization</h3>
+    <p class="skill-list">Matplotlib, Seaborn, Plotly, Tableau, Power BI</p>
+  </section>
+
+  <section class="reveal">
+    <h2 class="section-title">University Admits</h2>
+    <ul class="line-list">
+      <li>University of Arizona, PhD, Aerospace Engineering, 2022 to 2023 and 2023 to 2024</li>
+      <li>Arizona State University, PhD, Robotics &amp; Autonomous Systems, 2024 to 2025 and 2025 to 2026</li>
+      <li>University of Birmingham, PhD, Materials Science (Nuclear Science), 2024 to 2025 and 2025 to 2026</li>
+    </ul>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-line"></div>
+  <div class="footer-row">
+    <span class="footer-updated">Last updated: August 2026</span>
+    <span class="footer-copyright">&copy; 2026 Uday Kiran Kandala</span>
+    <a href="#page-top" class="footer-top-link">Back to top &uarr;</a>
+  </div>
+</footer>
+
+<script>
+  const canvas = document.getElementById('starCanvas');
+  const ctx = canvas.getContext('2d');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let w, h;
+  const CELL = 22;
+  const GAP = 3;
+  let cols, rows;
+
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+    cols = Math.ceil(w / CELL);
+    rows = Math.ceil(h / CELL);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  let mouseX = -9999, mouseY = -9999;
+  let hoveredIdx = -1;
+  let overCanvas = false;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    overCanvas = true;
+    const col = Math.floor(mouseX / CELL);
+    const row = Math.floor(mouseY / CELL);
+    if (col >= 0 && col < cols && row >= 0 && row < rows) {
+      hoveredIdx = row * cols + col;
+    } else {
+      hoveredIdx = -1;
+    }
+  }, { passive: true });
+
+  document.addEventListener('mouseleave', () => {
+    overCanvas = false;
+    hoveredIdx = -1;
+  });
+
+  const active = new Map();
+  const EASE_IN = 0.28;
+  const EASE_OUT = 0.14;
+
+  function animate() {
+    ctx.clearRect(0, 0, w, h);
+
+    if (hoveredIdx !== -1 && overCanvas && !active.has(hoveredIdx)) {
+      active.set(hoveredIdx, 0);
+    }
+
+    for (const [idx, val] of active) {
+      const isTarget = idx === hoveredIdx && overCanvas;
+      const target = isTarget ? 1 : 0;
+      const ease = isTarget ? EASE_IN : EASE_OUT;
+      let a = val + (target - val) * ease;
+
+      if (!isTarget && a < 0.01) {
+        active.delete(idx);
+        continue;
+      }
+      active.set(idx, a);
+
+      const row = Math.floor(idx / cols);
+      const col = idx % cols;
+      const baseSize = CELL - GAP;
+      const cx = col * CELL + baseSize / 2;
+      const cy = row * CELL + baseSize / 2;
+
+      const glowR = baseSize * 2.2 * a;
+      if (glowR > 1) {
+        const bgGlow = ctx.createRadialGradient(cx, cy, 0, cx, cy, glowR);
+        bgGlow.addColorStop(0, `rgba(232, 205, 138, ${0.35 * a})`);
+        bgGlow.addColorStop(1, 'rgba(232, 205, 138, 0)');
+        ctx.fillStyle = bgGlow;
+        ctx.beginPath();
+        ctx.arc(cx, cy, glowR, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      const size = baseSize * (1 + a * 0.9);
+      const px = cx - size / 2;
+      const py = cy - size / 2;
+
+      const grad = ctx.createLinearGradient(px, py, px + size, py + size);
+      grad.addColorStop(0, `rgba(255, 255, 255, ${a})`);
+      grad.addColorStop(0.5, `rgba(232, 205, 138, ${a})`);
+      grad.addColorStop(1, `rgba(150, 118, 58, ${a * 0.85})`);
+
+      ctx.shadowColor = `rgba(232, 205, 138, ${a * 0.85})`;
+      ctx.shadowBlur = 18 * a;
+      ctx.fillStyle = grad;
+      ctx.fillRect(px, py, size, size);
+      ctx.shadowBlur = 0;
+    }
+
+    if (!prefersReducedMotion) requestAnimationFrame(animate);
+  }
+
+  if (prefersReducedMotion) {
+    ctx.clearRect(0, 0, w, h);
+  } else {
+    animate();
+  }
+</script>
+
+<script>
+  const siteHeader = document.querySelector('.site-header');
+  function updateHeaderState() {
+    if (window.scrollY > 40) {
+      siteHeader.classList.add('is-scrolled');
+    } else {
+      siteHeader.classList.remove('is-scrolled');
+    }
+  }
+  window.addEventListener('scroll', updateHeaderState, { passive: true });
+  updateHeaderState();
+</script>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && revealEls.length) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach((el) => io.observe(el));
+  } else {
+    revealEls.forEach((el) => el.classList.add('is-visible'));
+  }
+</script>
+
+</body>
+</html>
